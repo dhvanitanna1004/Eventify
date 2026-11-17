@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eventify — Event Details</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<style>
+:root{--black:#111;--cream:#f7f6f2;--border:#e5e2dc;--muted:#77736c}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:#111;font-family:Arial,Helvetica,sans-serif}
+.site-header{height:72px;background:rgba(255,255,255,.96);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:1000;backdrop-filter:blur(14px)}
+.brand{font-size:23px;font-weight:800;letter-spacing:-.7px;text-decoration:none;color:#111}
+.brand i{font-size:24px;margin-right:7px}.nav-link{font-size:14px;color:#555!important}.nav-link:hover{color:#111!important}
+.header-icon{font-size:19px;text-decoration:none;color:#111;transition:.2s}.header-icon:hover{transform:translateY(-2px)}
+.hero{position:relative;height:480px;border-radius:18px;overflow:hidden;background:#111;box-shadow:0 20px 50px #0001}
+.hero img{width:100%;height:100%;object-fit:cover;transition:.5s}.hero:hover img{transform:scale(1.025)}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,#000d 0%,#0008 43%,#0001 100%)}
+.hero-content{position:absolute;inset:0;padding:48px;display:flex;flex-direction:column;justify-content:center;max-width:720px;color:#fff}
+.pill{display:inline-flex;width:max-content;padding:7px 12px;border:1px solid #ffffff66;border-radius:100px;font-size:10px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase}
+.hero h1{font-size:clamp(38px,5vw,65px);line-height:.98;letter-spacing:-2.5px;font-weight:800;margin:17px 0 15px}
+.hero p{color:#ddd;line-height:1.7;max-width:620px;font-size:14px}
+.hero-meta{display:flex;gap:22px;flex-wrap:wrap;color:#eee;font-size:12px;margin-top:7px}.hero-meta i{margin-right:6px}
+.btn-event{border:0;border-radius:7px;padding:12px 18px;font-size:12px;font-weight:800;background:#fff;color:#111}.btn-event:hover{background:#eee}
+.btn-outline-event{border:1px solid #fff8;background:transparent;color:#fff;border-radius:7px;padding:12px 18px;font-size:12px;font-weight:800}.btn-outline-event:hover{background:#fff;color:#111}
+.section-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:28px}
+.section-title{font-size:22px;font-weight:800;letter-spacing:-.5px}.muted{color:var(--muted);font-size:13px;line-height:1.8}
+.info-item{display:flex;gap:14px;padding:17px 0;border-bottom:1px solid #eee}.info-item:last-child{border-bottom:0}
+.info-icon{width:40px;height:40px;flex:0 0 40px;border-radius:9px;background:#f1f0ec;display:flex;align-items:center;justify-content:center;font-size:18px}
+.info-item strong{font-size:12px;display:block;margin-bottom:4px}.info-item span{font-size:12px;color:#777}
+.sticky-card{position:sticky;top:95px}.price{font-size:31px;font-weight:800}.price small{font-size:12px;color:#888;font-weight:500}
+.book-btn{width:100%;height:50px;border:0;border-radius:7px;background:#111;color:#fff;font-size:13px;font-weight:800}.book-btn:hover{background:#333}
+.favorite-btn{width:50px;height:50px;border:1px solid #111;background:#fff;border-radius:8px;font-size:20px}.favorite-btn.active{background:#111;color:#fff}
+.feature-list{list-style:none;padding:0;margin:0}.feature-list li{padding:11px 0;border-bottom:1px solid #eee;font-size:13px}.feature-list li:last-child{border:0}.feature-list i{margin-right:9px}
+.schedule-row{display:flex;gap:18px;padding:17px 0;border-bottom:1px solid #eee}.schedule-row:last-child{border:0}.schedule-time{min-width:105px;font-size:12px;font-weight:800}.schedule-row span{font-size:12px;color:#777}
+.organizer{display:flex;align-items:center;gap:13px}.org-avatar{width:48px;height:48px;border-radius:50%;background:#111;color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px}
+.related{border:1px solid var(--border);border-radius:12px;background:#fff;overflow:hidden;cursor:pointer;transition:.25s;height:100%}.related:hover{transform:translateY(-5px);box-shadow:0 15px 35px #0000000d}.related img{width:100%;height:150px;object-fit:cover}.related-body{padding:16px}.related h5{font-size:14px;font-weight:800}.related p{font-size:11px;color:#888;margin:0}.related-price{font-size:13px;font-weight:800;margin-top:12px}
+.payment-summary{background:#f5f4f0;border-radius:10px;padding:17px}.payment-method{border:1px solid #ddd;border-radius:8px;padding:12px;cursor:pointer}.payment-method.active{border-color:#111;background:#fafafa}.method-panel{display:none}.method-panel.active{display:block}
+.form-control,.form-select{height:46px;border-color:#d8d5cf}.form-control:focus,.form-select:focus{border-color:#111;box-shadow:0 0 0 2px #1111}
+.footer{background:#111;color:#fff;padding:45px 0 25px;margin-top:70px}.footer p,.footer li{color:#aaa;font-size:11px;line-height:1.8}.footer ul{list-style:none;padding:0}.footer a{color:#aaa;text-decoration:none}.footer a:hover{color:#fff}
+.toast-box{position:fixed;right:24px;bottom:24px;background:#111;color:#fff;padding:14px 18px;border-radius:9px;opacity:0;transform:translateY(15px);transition:.3s;z-index:9999;font-size:13px}.toast-box.show{opacity:1;transform:translateY(0)}
+@media(max-width:767px){.hero{height:510px}.hero-content{padding:28px}.hero h1{font-size:39px}.section-card{padding:20px}.sticky-card{position:static}.hero-meta{gap:10px}}
+</style>
+</head>
+
+<body>
+
+<header class="site-header">
+<div class="container-fluid px-4 h-100">
+<div class="d-flex align-items-center h-100 gap-4">
+<a href="index.html" class="brand"><i class="bi bi-calendar-event"></i>Eventify</a>
+<nav class="d-none d-lg-flex gap-3">
+<a href="explore.html" class="nav-link">Discover</a>
+<a href="explore.html?q=Music" class="nav-link">Music</a>
+<a href="explore.html?q=Tech" class="nav-link">Tech</a>
+<a href="explore.html?q=Wellness" class="nav-link">Wellness</a>
+<a href="explore.html?q=Culinary" class="nav-link">Culinary</a>
+</nav>
+<div class="ms-auto d-flex align-items-center gap-3">
+<a href="favorites.html" class="header-icon" title="Favorites"><i class="bi bi-heart"></i></a>
+<a href="dashboard.html" class="header-icon" title="Dashboard"><i class="bi bi-person-circle"></i></a>
+<a href="login.html" class="text-decoration-none small">Log in</a>
+<a href="signup.html" class="text-decoration-none small fw-bold">Sign up</a>
+</div>
+</div></div>
+</header>
+
+<main class="container py-4 py-lg-5">
+
+<div id="eventContent"></div>
+
+<section class="mt-5">
+<div class="d-flex justify-content-between align-items-end mb-3">
+<div><h2 class="section-title mb-1">You may also like</h2><div class="muted">More experiences from Eventify.</div></div>
+<a href="explore.html" class="btn btn-sm btn-dark">Explore all</a>
+</div>
+<div class="row g-3" id="relatedEvents"></div>
+</section>
+
+</main>
+
+<footer class="footer">
+<div class="container">
+<div class="row g-4">
+<div class="col-lg-5"><h5 class="fw-bold">Eventify</h5><p>Discover experiences, connect with communities, and make every event memorable.</p></div>
+<div class="col-lg-2"><h6>Explore</h6><ul><li><a href="explore.html?q=Music">Music</a></li><li><a href="explore.html?q=Tech">Technology</a></li><li><a href="explore.html?q=Wellness">Wellness</a></li><li><a href="explore.html?q=Culinary">Culinary</a></li></ul></div>
+<div class="col-lg-2"><h6>Support</h6><ul><li><a href="#">Help Center</a></li><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li></ul></div>
+<div class="col-lg-3"><h6>Reach Out</h6><p><i class="bi bi-envelope"></i> support@eventify.com<br><i class="bi bi-telephone"></i> +91 98765 43210</p></div>
+</div><hr><small class="text-secondary">© 2026 Eventify. All rights reserved.</small>
+</div>
+</footer>
+
+<!-- BOOKING + PAYMENT MODAL -->
+<div class="modal fade" id="bookingModal" tabindex="-1">
+<div class="modal-dialog modal-lg modal-dialog-centered">
+<div class="modal-content">
+<form id="bookingForm" novalidate>
+<div class="modal-header"><h5 class="modal-title"><i class="bi bi-ticket-perforated me-2"></i>Reserve your experience</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+
+<div class="modal-body">
+<div class="row g-4">
+
+<div class="col-lg-7">
+<div class="mb-3"><label class="form-label fw-semibold">Full Name</label><input id="bookingName" class="form-control" minlength="3" pattern="[A-Za-z]+([ '-][A-Za-z]+)*" required><div class="invalid-feedback">Enter a valid name.</div></div>
+<div class="mb-3"><label class="form-label fw-semibold">Email</label><input id="bookingEmail" type="email" class="form-control" required><div class="invalid-feedback">Enter a valid email.</div></div>
+<div class="mb-3"><label class="form-label fw-semibold">Number of Tickets</label><input id="ticketCount" type="number" class="form-control" min="1" max="10" value="1" required><div class="invalid-feedback">Choose 1–10 tickets.</div></div>
+
+<div class="mb-3">
+<label class="form-label fw-semibold">Payment Method</label>
+<div class="row g-2">
+<div class="col-4"><div class="payment-method active" data-method="upi"><i class="bi bi-phone me-1"></i> UPI</div></div>
+<div class="col-4"><div class="payment-method" data-method="card"><i class="bi bi-credit-card me-1"></i> Card</div></div>
+<div class="col-4"><div class="payment-method" data-method="netbanking"><i class="bi bi-bank me-1"></i> Bank</div></div>
+</div>
+</div>
+
+<div id="upiPanel" class="method-panel active">
+<label class="form-label fw-semibold">UPI ID</label>
+<input id="upiId" class="form-control" placeholder="name@upi">
+<div class="invalid-feedback">Enter a valid UPI ID.</div>
+</div>
+
+<div id="cardPanel" class="method-panel">
+<div class="mb-2"><label class="form-label fw-semibold">Card Number</label><input id="cardNumber" class="form-control" inputmode="numeric" maxlength="19" placeholder="1234 5678 9012 3456"></div>
+<div class="row g-2"><div class="col-6"><label class="form-label fw-semibold">Expiry</label><input id="expiry" class="form-control" placeholder="MM/YY" maxlength="5"></div><div class="col-6"><label class="form-label fw-semibold">CVV</label><input id="cvv" type="password" class="form-control" maxlength="4" inputmode="numeric" placeholder="•••"></div></div>
+</div>
+
+<div id="netbankingPanel" class="method-panel">
+<label class="form-label fw-semibold">Select Bank</label>
+<select id="bank" class="form-select"><option value="">Choose your bank</option><option>State Bank of India</option><option>HDFC Bank</option><option>ICICI Bank</option><option>Axis Bank</option><option>Bank of Baroda</option></select>
+</div>
+
+<div class="form-check mt-3"><input class="form-check-input" id="paymentTerms" type="checkbox" required><label class="form-check-label small" for="paymentTerms">I confirm the booking details and agree to Eventify's booking terms.</label><div class="invalid-feedback">Please accept the booking terms.</div></div>
+</div>
+
+<div class="col-lg-5">
+<div class="payment-summary">
+<div class="small text-secondary text-uppercase fw-bold">Order summary</div>
+<h5 id="paymentEventName" class="fw-bold mt-2">Event</h5>
+<div class="d-flex justify-content-between mt-3"><span>Ticket price</span><strong id="summaryPrice">₹0</strong></div>
+<div class="d-flex justify-content-between mt-2"><span>Tickets</span><strong id="summaryTickets">1</strong></div>
+<div class="d-flex justify-content-between mt-2"><span>Booking fee</span><strong id="summaryFee">₹0</strong></div>
+<hr>
+<div class="d-flex justify-content-between"><strong>Total</strong><strong id="summaryTotal">₹0</strong></div>
+<div class="small text-secondary mt-3"><i class="bi bi-shield-check me-1"></i> Secure demo payment flow</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="modal-footer">
+<button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+<button type="submit" class="btn btn-dark px-4" id="payButton"><i class="bi bi-lock me-1"></i> Pay & Confirm</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+
+<div id="toast" class="toast-box"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+"use strict";
+
+const events = [
+{id:"EVT-001",title:"Jazz Under The Stars",category:"Music",location:"Ahmedabad, Gujarat",venue:"Riverfront Amphitheatre",date:"18 September 2026",time:"7:30 PM - 10:30 PM",price:799,image:"assets/images/jazz.jpg",description:"An intimate evening of live jazz, soulful performances and an atmospheric open-air setting under the stars.",about:"Enjoy an elegant night of music featuring talented jazz performers, smooth acoustic sessions and a relaxed audience experience.",features:["Live jazz performances","Open-air seating","Food & beverage stalls","Professional sound & lighting"],schedule:[["7:00 PM","Gates open"],["7:30 PM","Opening performance"],["8:15 PM","Main jazz set"],["10:30 PM","Event closes"]],organizer:"Eventify Music Collective"},
+{id:"EVT-002",title:"Future Tech Conference",category:"Tech",location:"Mumbai, Maharashtra",venue:"Jio World Convention Centre",date:"24 September 2026",time:"10:00 AM - 5:00 PM",price:1499,image:"assets/images/tech.jpg",description:"Explore artificial intelligence, emerging technologies, digital products and innovation with technology professionals.",about:"A full-day technology experience with expert talks, product showcases, networking opportunities and practical insights.",features:["Industry expert sessions","AI & innovation talks","Networking lounge","Technology showcase"],schedule:[["10:00 AM","Registration"],["11:00 AM","Keynote"],["1:00 PM","Networking lunch"],["3:00 PM","Innovation panel"],["5:00 PM","Closing"],],organizer:"Eventify Tech Community"},
+{id:"EVT-003",title:"Mind & Body Retreat",category:"Wellness",location:"Vadodara, Gujarat",venue:"Green Valley Resort",date:"27 September 2026",time:"8:00 AM - 4:00 PM",price:999,image:"assets/images/wellness.jpg",description:"Step away from your routine with yoga, meditation, wellness activities and a peaceful day designed to refresh your mind and body.",about:"A calming wellness retreat focused on mindful movement, breathing, relaxation and healthy living.",features:["Guided yoga","Meditation session","Healthy lunch","Wellness workshops"],schedule:[["8:00 AM","Welcome & tea"],["9:00 AM","Yoga session"],["11:00 AM","Mindfulness workshop"],["1:00 PM","Healthy lunch"],["3:00 PM","Relaxation session"]],organizer:"Eventify Wellness Studio"},
+{id:"EVT-004",title:"Taste of Gujarat",category:"Culinary",location:"Rajkot, Gujarat",venue:"Race Course Grounds",date:"3 October 2026",time:"5:00 PM - 9:00 PM",price:499,image:"assets/images/culinary.jpg",description:"Celebrate Gujarati food and culture with traditional flavours, local chefs, live counters and an energetic evening.",about:"Taste your way through regional favourites while discovering local culinary stories, recipes and food traditions.",features:["Traditional Gujarati cuisine","Live food counters","Local chef demonstrations","Cultural performances"],schedule:[["5:00 PM","Entry opens"],["5:30 PM","Food counters open"],["7:00 PM","Chef showcase"],["8:00 PM","Cultural performance"],["9:00 PM","Event closes"]],organizer:"Eventify Culinary Collective"},
+{id:"EVT-005",title:"Gaming & Esports Fest",category:"Gaming",location:"Surat, Gujarat",venue:"SIECC Exhibition Centre",date:"10 October 2026",time:"11:00 AM - 8:00 PM",price:699,image:"assets/images/gaming.jpg",description:"Compete, connect and play at a high-energy gaming festival packed with esports matches, gaming zones and challenges.",about:"A full-day celebration for casual players and competitive gamers with tournaments, free-play areas and community activities.",features:["Esports tournaments","Free-play gaming zones","Gaming challenges","Community meetups"],schedule:[["11:00 AM","Registration"],["12:00 PM","Qualifiers"],["3:00 PM","Community matches"],["6:00 PM","Finals"],["8:00 PM","Awards"]],organizer:"Eventify Gaming Arena"},
+{id:"EVT-006",title:"Live Music Festival",category:"Music",location:"Ahmedabad, Gujarat",venue:"GMDC Ground",date:"17 October 2026",time:"6:00 PM - 11:00 PM",price:1199,image:"assets/images/concert.jpg",description:"A high-energy live music festival featuring artists, powerful performances, food zones and an unforgettable crowd experience.",about:"Dance, sing and enjoy a complete festival atmosphere with multiple performances and entertainment zones.",features:["Live artists","Main stage","Food court","Festival merchandise"],schedule:[["6:00 PM","Doors open"],["7:00 PM","Opening acts"],["8:15 PM","Live performance"],["9:30 PM","Headliner"],["11:00 PM","Event closes"]],organizer:"Eventify Live"},
+{id:"EVT-007",title:"Modern Art Exhibition",category:"Arts",location:"Ahmedabad, Gujarat",venue:"Amdavad Ni Gufa",date:"20 October 2026",time:"11:00 AM - 7:00 PM",price:399,image:"assets/images/arts.jpg",description:"Discover contemporary artworks, visual installations and creative expressions from emerging and established artists.",about:"Walk through a curated collection of modern art and explore ideas, techniques and stories behind each work.",features:["Curated art collection","Artist stories","Guided walkthrough","Photography zone"],schedule:[["11:00 AM","Doors open"],["1:00 PM","Guided tour"],["3:30 PM","Artist talk"],["6:00 PM","Open viewing"]],organizer:"Eventify Arts Circle"},
+{id:"EVT-008",title:"Creative Design Workshop",category:"Design",location:"Pune, Maharashtra",venue:"Creative Hub Pune",date:"23 October 2026",time:"10:00 AM - 4:00 PM",price:599,image:"assets/images/design.jpg",description:"Learn practical design thinking, visual storytelling and creative problem-solving through hands-on activities.",about:"A workshop for students, creators and aspiring designers who want to turn ideas into better visual experiences.",features:["Hands-on exercises","Design thinking","Portfolio tips","Mentor feedback"],schedule:[["10:00 AM","Introduction"],["11:00 AM","Design challenge"],["1:00 PM","Workshop"],["3:00 PM","Portfolio review"],["4:00 PM","Wrap-up"]],organizer:"Eventify Creative Lab"},
+{id:"EVT-009",title:"AI & Machine Learning Workshop",category:"Technology",location:"Bengaluru, Karnataka",venue:"Innovation Campus",date:"25 October 2026",time:"9:30 AM - 5:00 PM",price:1299,image:"assets/images/ai.jpg",description:"Build practical understanding of AI and machine learning concepts through guided demonstrations and beginner-friendly activities.",about:"A practical learning experience covering modern AI concepts, real-world applications and responsible technology.",features:["AI fundamentals","ML demonstrations","Real-world cases","Q&A with mentors"],schedule:[["9:30 AM","Registration"],["10:00 AM","AI fundamentals"],["12:00 PM","ML lab"],["2:00 PM","Applications"],["4:00 PM","Q&A"]],organizer:"Eventify Learning"},
+{id:"EVT-010",title:"Sunset Acoustic Night",category:"Music",location:"Goa",venue:"Sunset Beach Arena",date:"28 October 2026",time:"5:30 PM - 9:30 PM",price:899,image:"assets/images/acoustic.jpg",description:"Watch the sunset while enjoying intimate acoustic performances, relaxed seating and a beautiful coastal atmosphere.",about:"A slower, more intimate music experience designed around sunset, acoustic artists and a laid-back evening.",features:["Acoustic performances","Sunset seating","Beachside atmosphere","Refreshment counters"],schedule:[["5:30 PM","Doors open"],["6:00 PM","Sunset session"],["7:15 PM","Acoustic set"],["8:30 PM","Final performance"],["9:30 PM","Close"]],organizer:"Eventify Acoustic"},
+{id:"EVT-011",title:"Healthy Living Workshop",category:"Wellness",location:"Jaipur, Rajasthan",venue:"Wellness Centre Jaipur",date:"30 October 2026",time:"9:00 AM - 2:00 PM",price:499,image:"assets/images/health.jpg",description:"Learn simple, practical habits for balanced nutrition, movement, sleep and sustainable everyday wellness.",about:"An approachable workshop focused on building realistic healthy habits without complicated routines.",features:["Nutrition session","Movement workshop","Healthy habits","Expert Q&A"],schedule:[["9:00 AM","Welcome"],["9:30 AM","Nutrition"],["11:00 AM","Movement"],["12:30 PM","Healthy lunch"],["1:30 PM","Q&A"]],organizer:"Eventify Wellness"},
+{id:"EVT-012",title:"Street Food Festival",category:"Culinary",location:"Delhi",venue:"Major Dhyan Chand National Stadium",date:"1 November 2026",time:"4:00 PM - 10:00 PM",price:349,image:"assets/images/food.jpg",description:"Explore popular street-food flavours, regional specialties, live cooking counters and a lively festival atmosphere.",about:"A colourful food experience bringing together favourite street foods and regional flavours in one place.",features:["Street food stalls","Live cooking","Regional flavours","Family entertainment"],schedule:[["4:00 PM","Festival opens"],["5:00 PM","Live cooking"],["7:00 PM","Food showcase"],["8:30 PM","Entertainment"],["10:00 PM","Close"]],organizer:"Eventify Food Collective"}
+];
+
+const params=new URLSearchParams(location.search);
+const eventId=params.get("id")||"EVT-001";
+const event=events.find(e=>e.id===eventId);
+const content=document.getElementById("eventContent");
+
+function escapeHTML(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
+
+if(!event){
+content.innerHTML=`<div class="section-card text-center py-5"><i class="bi bi-calendar-x display-2 text-secondary"></i><h2 class="mt-3">Event Not Found</h2><p class="muted">The event you are looking for does not exist.</p><a href="explore.html" class="btn btn-dark">Explore Events</a></div>`;
+}else{
+content.innerHTML=`
+<div class="hero">
+<img src="${event.image}" alt="${escapeHTML(event.title)}">
+<div class="hero-overlay"></div>
+<div class="hero-content">
+<span class="pill">${escapeHTML(event.category)}</span>
+<h1>${escapeHTML(event.title)}</h1>
+<p>${escapeHTML(event.description)}</p>
+<div class="hero-meta">
+<span><i class="bi bi-calendar3"></i>${event.date}</span>
+<span><i class="bi bi-clock"></i>${event.time}</span>
+<span><i class="bi bi-geo-alt"></i>${event.location}</span>
+</div>
+<div class="d-flex gap-2 flex-wrap mt-4">
+<button class="btn-event" data-bs-toggle="modal" data-bs-target="#bookingModal"><i class="bi bi-ticket-perforated me-1"></i>Book Tickets</button>
+<button class="btn-outline-event" onclick="toggleFavorite()"><i id="heroHeart" class="bi bi-heart me-1"></i>Save Event</button>
+</div>
+</div></div>
+
+<div class="row g-4 mt-4">
+<div class="col-lg-8">
+<section class="section-card">
+<h2 class="section-title">About this event</h2>
+<p class="muted">${escapeHTML(event.about)}</p>
+<h3 class="section-title mt-4">What to expect</h3>
+<ul class="feature-list mt-2">${event.features.map(x=>`<li><i class="bi bi-check2-circle"></i>${escapeHTML(x)}</li>`).join("")}</ul>
+</section>
+
+<section class="section-card mt-4">
+<h2 class="section-title">Event schedule</h2>
+<div>${event.schedule.map(x=>`<div class="schedule-row"><div class="schedule-time">${escapeHTML(x[0])}</div><div><strong>${escapeHTML(x[1])}</strong></div></div>`).join("")}</div>
+</section>
+
+<section class="section-card mt-4">
+<h2 class="section-title">Venue & location</h2>
+<div class="info-item"><div class="info-icon"><i class="bi bi-geo-alt"></i></div><div><strong>${escapeHTML(event.venue)}</strong><span>${escapeHTML(event.location)}</span></div></div>
+<div class="mt-3 rounded-3 p-4 bg-light text-center"><i class="bi bi-map display-5"></i><div class="fw-bold mt-2">${escapeHTML(event.location)}</div><div class="small text-secondary">Venue directions and map integration can be connected to a map API later.</div></div>
+</section>
+</div>
+
+<div class="col-lg-4">
+<div class="section-card sticky-card">
+<div class="small text-secondary text-uppercase fw-bold">Tickets from</div>
+<div class="price mt-1">₹${event.price}<small> / person</small></div>
+<hr>
+<div class="info-item"><div class="info-icon"><i class="bi bi-calendar3"></i></div><div><strong>Date</strong><span>${escapeHTML(event.date)}</span></div></div>
+<div class="info-item"><div class="info-icon"><i class="bi bi-clock"></i></div><div><strong>Time</strong><span>${escapeHTML(event.time)}</span></div></div>
+<div class="info-item"><div class="info-icon"><i class="bi bi-geo-alt"></i></div><div><strong>Location</strong><span>${escapeHTML(event.location)}</span></div></div>
+<button class="book-btn mt-3" data-bs-toggle="modal" data-bs-target="#bookingModal">Book Your Tickets</button>
+<div class="text-center small text-secondary mt-3"><i class="bi bi-shield-check"></i> Secure demo checkout</div>
+<hr>
+<div class="organizer mt-3"><div class="org-avatar"><i class="bi bi-person"></i></div><div><div class="small text-secondary">Organized by</div><strong>${escapeHTML(event.organizer)}</strong></div></div>
+</div>
+</div>
+</div>`;
+updateFavorite();
+}
+
+function getFavorites(){try{return JSON.parse(localStorage.getItem("eventifyFavorites"))||[]}catch{return[]}}
+function toggleFavorite(){
+if(!event)return;
+let f=getFavorites(),i=f.indexOf(event.id);
+if(i<0){f.push(event.id);showToast("Event saved to favorites.");}else{f.splice(i,1);showToast("Event removed from favorites.");}
+localStorage.setItem("eventifyFavorites",JSON.stringify(f));updateFavorite();
+}
+function updateFavorite(){
+if(!event)return;
+const saved=getFavorites().includes(event.id);
+const h=document.getElementById("heroHeart");
+if(h){h.className=saved?"bi bi-heart-fill me-1":"bi bi-heart me-1";}
+}
+
+const related=document.getElementById("relatedEvents");
+events.filter(e=>e.id!==eventId).slice(0,4).forEach(e=>{
+related.innerHTML+=`<div class="col-sm-6 col-lg-3"><div class="related" onclick="location.href='event-details.html?id=${e.id}'"><img src="${e.image}" alt="${escapeHTML(e.title)}"><div class="related-body"><div class="small text-secondary text-uppercase">${escapeHTML(e.category)}</div><h5 class="mt-1">${escapeHTML(e.title)}</h5><p><i class="bi bi-calendar3"></i> ${escapeHTML(e.date)}</p><div class="related-price">₹${e.price} onwards</div></div></div></div>`;
+});
+
+let paymentMethod="upi";
+const bookingModal=document.getElementById("bookingModal");
+const ticketCount=document.getElementById("ticketCount");
+
+function updateSummary(){
+if(!event)return;
+const qty=Math.max(1,Math.min(10,Number(ticketCount.value)||1));
+const fee=Math.round(event.price*qty*.05);
+document.getElementById("paymentEventName").textContent=event.title;
+document.getElementById("summaryPrice").textContent="₹"+event.price;
+document.getElementById("summaryTickets").textContent=qty;
+document.getElementById("summaryFee").textContent="₹"+fee;
+document.getElementById("summaryTotal").textContent="₹"+(event.price*qty+fee);
+}
+ticketCount.addEventListener("input",updateSummary);
+
+document.querySelectorAll(".payment-method").forEach(el=>{
+el.addEventListener("click",()=>{
+paymentMethod=el.dataset.method;
+document.querySelectorAll(".payment-method").forEach(x=>x.classList.remove("active"));
+el.classList.add("active");
+document.querySelectorAll(".method-panel").forEach(x=>x.classList.remove("active"));
+document.getElementById(paymentMethod+"Panel").classList.add("active");
+});
+});
+
+document.getElementById("cardNumber").addEventListener("input",e=>{
+let v=e.target.value.replace(/\D/g,"").slice(0,16);
+e.target.value=v.replace(/(.{4})/g,"$1 ").trim();
+});
+document.getElementById("expiry").addEventListener("input",e=>{
+let v=e.target.value.replace(/\D/g,"").slice(0,4);
+e.target.value=v.length>2?v.slice(0,2)+"/"+v.slice(2):v;
+});
+document.getElementById("cvv").addEventListener("input",e=>e.target.value=e.target.value.replace(/\D/g,"").slice(0,4));
+
+document.getElementById("bookingForm").addEventListener("submit",e=>{
+e.preventDefault();
+const form=e.currentTarget;
+form.classList.add("was-validated");
+
+let valid=form.checkValidity();
+if(paymentMethod==="upi"){
+const input=document.getElementById("upiId");
+input.setCustomValidity(/^[\w.-]{2,}@[A-Za-z]{2,}$/.test(input.value.trim())?"":"Invalid UPI");
+valid=valid&&input.checkValidity();
+}
+if(paymentMethod==="card"){
+const card=document.getElementById("cardNumber"),exp=document.getElementById("expiry"),cvv=document.getElementById("cvv");
+card.setCustomValidity(/^\d{4} \d{4} \d{4} \d{4}$/.test(card.value)?"":"Invalid card");
+exp.setCustomValidity(/^(0[1-9]|1[0-2])\/\d{2}$/.test(exp.value)?"":"Invalid expiry");
+cvv.setCustomValidity(/^\d{3,4}$/.test(cvv.value)?"":"Invalid CVV");
+valid=valid&&card.checkValidity()&&exp.checkValidity()&&cvv.checkValidity();
+}
+if(paymentMethod==="netbanking"){
+const bank=document.getElementById("bank");
+bank.setCustomValidity(bank.value?"":"Choose bank");
+valid=valid&&bank.checkValidity();
+}
+if(!valid)return;
+
+const qty=Number(ticketCount.value),fee=Math.round(event.price*qty*.05),total=event.price*qty+fee;
+const booking={id:"EVT-"+Math.floor(10000+Math.random()*90000),eventId:event.id,eventName:event.title,name:document.getElementById("bookingName").value.trim(),email:document.getElementById("bookingEmail").value.trim().toLowerCase(),tickets:qty,amount:total,paymentMethod,bookingDate:new Date().toISOString(),status:"Confirmed"};
+localStorage.setItem("eventifyLastBooking",JSON.stringify(booking));
+
+let history=[];
+try{history=JSON.parse(localStorage.getItem("eventifyBookings"))||[]}catch{}
+history.unshift(booking);
+localStorage.setItem("eventifyBookings",JSON.stringify(history));
+
+bootstrap.Modal.getInstance(bookingModal).hide();
+form.reset();form.classList.remove("was-validated");
+showToast("Payment successful • Booking confirmed!");
+setTimeout(()=>location.href="dashboard.html",1100);
+});
+
+bookingModal.addEventListener("show.bs.modal",()=>{
+if(event){
+document.getElementById("bookingEventName")?.remove();
+const u=(()=>{try{return JSON.parse(localStorage.getItem("eventifyUser"))}catch{return null}})();
+if(u){document.getElementById("bookingName").value=u.name||"";document.getElementById("bookingEmail").value=u.email||""}
+updateSummary();
+}
+});
+
+function showToast(msg){
+const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");
+setTimeout(()=>t.classList.remove("show"),2800);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,3337 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Eventify — Dashboard</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <!-- Eventify CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+
+        /* =====================================================
+           EVENTIFY PREMIUM DASHBOARD
+        ===================================================== */
+
+        :root {
+            --black: #111111;
+            --dark: #181818;
+            --cream: #f7f6f2;
+            --soft: #f1f0ec;
+            --border: #e5e3de;
+            --muted: #77736c;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            background: var(--cream);
+            color: var(--black);
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .site-header {
+            height: 72px;
+            background: rgba(255,255,255,.96);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(15px);
+        }
+
+        .brand {
+            color: #111 !important;
+            font-size: 23px;
+            font-weight: 800;
+            letter-spacing: -.7px;
+            white-space: nowrap;
+        }
+
+        .brand i {
+            font-size: 24px;
+            margin-right: 7px;
+        }
+
+        .nav-link {
+            color: #555 !important;
+            font-size: 14px;
+            font-weight: 500;
+            transition: .2s;
+        }
+
+        .nav-link:hover {
+            color: #111 !important;
+        }
+
+        .header-search {
+            width: 220px;
+        }
+
+        .header-search .form-control,
+        .header-search .input-group-text {
+            border-color: #ddd;
+            background: #fafafa;
+        }
+
+        .header-search .form-control:focus {
+            box-shadow: none;
+            border-color: #111;
+        }
+
+        .header-icon {
+            position: relative;
+            text-decoration: none;
+            font-size: 19px;
+            transition: .2s;
+        }
+
+        .header-icon:hover {
+            transform: translateY(-2px);
+        }
+
+        .favorite-count {
+            position: absolute;
+            top: -8px;
+            right: -10px;
+            font-size: 9px;
+        }
+
+        .header-divider {
+            width: 1px;
+            height: 25px;
+            background: #ddd;
+        }
+
+        .header-link {
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
+
+        .dashboard-side {
+            min-height: calc(100vh - 72px);
+            background: #151515;
+            color: #fff;
+            padding: 24px 16px;
+            position: sticky;
+            top: 72px;
+            align-self: flex-start;
+        }
+
+        .account-label {
+            color: #8e8e8e;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            margin-bottom: 12px;
+        }
+
+        .side-link {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 13px 14px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #aaa;
+            font-size: 14px;
+            transition: .25s;
+        }
+
+        .side-link i {
+            font-size: 17px;
+        }
+
+        .side-link:hover {
+            background: #242424;
+            color: #fff;
+            transform: translateX(3px);
+        }
+
+        .side-link.active {
+            background: #fff;
+            color: #111;
+            font-weight: 700;
+        }
+
+        .member-box {
+            margin-top: 45px;
+            padding: 18px;
+            border: 1px solid #333;
+            border-radius: 10px;
+            background: linear-gradient(
+                145deg,
+                #202020,
+                #141414
+            );
+        }
+
+        .member-box .small-note {
+            color: #777;
+            font-size: 10px;
+            letter-spacing: 1px;
+        }
+
+        .member-box strong {
+            display: block;
+            margin-top: 5px;
+        }
+
+        .member-box .wire-btn {
+            background: #fff;
+            color: #111;
+            border: none;
+        }
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .dashboard-main {
+            padding: 42px 45px;
+            overflow: hidden;
+        }
+
+        .welcome-row {
+            animation: fadeUp .55s ease;
+        }
+
+        .eyebrow {
+            font-size: 10px;
+            letter-spacing: 2px;
+            font-weight: 800;
+            color: #8a857d;
+            margin-bottom: 9px;
+        }
+
+        .welcome-title {
+            font-size: clamp(30px, 4vw, 48px);
+            font-weight: 800;
+            letter-spacing: -2px;
+            line-height: 1;
+            margin: 0;
+        }
+
+        .welcome-title span {
+            color: #777;
+        }
+
+        .welcome-text {
+            color: var(--muted);
+            margin-top: 13px;
+            font-size: 14px;
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 44px;
+            padding: 0 17px;
+            border: 1px solid #ccc8c0;
+            border-radius: 7px;
+            background: #fff;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            transition: .25s;
+        }
+
+        .action-btn:hover {
+            background: #111;
+            color: #fff;
+            border-color: #111;
+            transform: translateY(-2px);
+        }
+
+        .action-btn.dark {
+            background: #111;
+            color: #fff;
+            border-color: #111;
+        }
+
+        .action-btn.dark:hover {
+            background: #333;
+        }
+
+        /* =====================================================
+           STAT CARDS
+        ===================================================== */
+
+        .stats-row {
+            margin-top: 35px;
+        }
+
+        .stat-card {
+            height: 100%;
+            padding: 23px;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            transition: .3s;
+            animation: fadeUp .6s ease both;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,.06);
+        }
+
+        .stat-icon {
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9px;
+            background: var(--soft);
+            font-size: 18px;
+            margin-bottom: 17px;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            color: #858078;
+            letter-spacing: 1.3px;
+            font-weight: 800;
+        }
+
+        .stat-number {
+            font-size: 31px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin: 5px 0;
+        }
+
+        .stat-description {
+            color: #89857e;
+            font-size: 11px;
+        }
+
+        .stat-arrow {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            color: #aaa;
+        }
+
+        /* =====================================================
+           FEATURED EVENT
+        ===================================================== */
+
+        .section-heading {
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: -.5px;
+            margin: 0;
+        }
+
+        .section-description {
+            color: #888;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .featured-event {
+            background: #111;
+            color: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            min-height: 320px;
+            box-shadow: 0 20px 45px rgba(0,0,0,.12);
+        }
+
+        .featured-image {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            opacity: .72;
+            transition: .5s;
+        }
+
+        .featured-event:hover .featured-image {
+            transform: scale(1.04);
+            opacity: .8;
+        }
+
+        .featured-overlay {
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(0,0,0,.9) 0%,
+                    rgba(0,0,0,.65) 48%,
+                    rgba(0,0,0,.15) 100%
+                );
+        }
+
+        .featured-content {
+            position: absolute;
+            inset: 0;
+            padding: 34px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-width: 610px;
+        }
+
+        .event-label {
+            display: inline-flex;
+            width: fit-content;
+            padding: 6px 10px;
+            border: 1px solid rgba(255,255,255,.35);
+            border-radius: 100px;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .featured-title {
+            font-size: 34px;
+            line-height: 1.05;
+            font-weight: 800;
+            letter-spacing: -1.2px;
+            margin-bottom: 14px;
+        }
+
+        .featured-meta {
+            color: #d0d0d0;
+            font-size: 13px;
+            line-height: 2;
+        }
+
+        .featured-meta i {
+            width: 20px;
+        }
+
+        .featured-actions {
+            margin-top: 19px;
+        }
+
+        .featured-btn {
+            background: #fff;
+            color: #111;
+            border: 0;
+            border-radius: 6px;
+            padding: 11px 17px;
+            font-size: 12px;
+            font-weight: 800;
+            text-decoration: none;
+            transition: .2s;
+        }
+
+        .featured-btn:hover {
+            background: #eaeaea;
+        }
+
+        .featured-btn.outline {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,.45);
+            color: #fff;
+        }
+
+        .featured-btn.outline:hover {
+            background: #fff;
+            color: #111;
+        }
+
+        /* =====================================================
+           QUICK ACTIONS
+        ===================================================== */
+
+        .quick-card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 18px;
+            height: 100%;
+            transition: .25s;
+        }
+
+        .quick-card:hover {
+            transform: translateY(-3px);
+            border-color: #bbb;
+        }
+
+        .quick-icon {
+            font-size: 22px;
+            margin-bottom: 13px;
+        }
+
+        .quick-card strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .quick-card span {
+            display: block;
+            color: #888;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        /* =====================================================
+           RECOMMENDATIONS
+        ===================================================== */
+
+        .recommendation-card {
+            display: flex;
+            gap: 13px;
+            padding: 10px;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: .25s;
+        }
+
+        .recommendation-card:hover {
+            transform: translateX(4px);
+            border-color: #aaa;
+            box-shadow: 0 8px 20px rgba(0,0,0,.05);
+        }
+
+        .recommendation-card img {
+            width: 76px;
+            height: 68px;
+            object-fit: cover;
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+
+        .recommendation-title {
+            font-size: 13px;
+            font-weight: 800;
+            line-height: 1.25;
+        }
+
+        .recommendation-meta {
+            color: #888;
+            font-size: 10px;
+            margin-top: 7px;
+        }
+
+        .recommendation-arrow {
+            color: #aaa;
+            margin-left: 4px;
+        }
+
+        /* =====================================================
+           BOOKING TABLE
+        ===================================================== */
+
+        .booking-wrapper {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .booking-table {
+            margin: 0;
+        }
+
+        .booking-table th {
+            background: #f8f7f4;
+            color: #817d76;
+            font-size: 9px;
+            letter-spacing: 1.1px;
+            font-weight: 800;
+            padding: 15px 14px;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+
+        .booking-table td {
+            padding: 16px 14px;
+            font-size: 12px;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+        }
+
+        .booking-table tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .booking-table tbody tr {
+            transition: .2s;
+        }
+
+        .booking-table tbody tr:hover {
+            background: #fafafa;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            padding: 5px 9px;
+            border-radius: 100px;
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+        .status-confirmed {
+            background: #e9f7ef;
+            color: #198754;
+        }
+
+        .status-upcoming {
+            background: #eef4ff;
+            color: #3867d6;
+        }
+
+        .status-completed {
+            background: #eee;
+            color: #666;
+        }
+
+        .status-cancelled {
+            background: #fff0f0;
+            color: #dc3545;
+        }
+
+        .table-action {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #ddd;
+            background: #fff;
+            border-radius: 6px;
+            transition: .2s;
+        }
+
+        .table-action:hover {
+            background: #111;
+            color: #fff;
+        }
+
+        /* =====================================================
+           LOYALTY CARD
+        ===================================================== */
+
+        .loyalty-card {
+            position: relative;
+            overflow: hidden;
+            background:
+                radial-gradient(
+                    circle at 90% 10%,
+                    #3c3c3c,
+                    transparent 30%
+                ),
+                #111;
+            color: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            min-height: 210px;
+            box-shadow: 0 18px 35px rgba(0,0,0,.12);
+        }
+
+        .loyalty-card::after {
+            content: "";
+            position: absolute;
+            width: 130px;
+            height: 130px;
+            border: 1px solid rgba(255,255,255,.12);
+            border-radius: 50%;
+            right: -45px;
+            bottom: -45px;
+        }
+
+        .loyalty-label {
+            font-size: 9px;
+            letter-spacing: 1.7px;
+            color: #aaa;
+            font-weight: 800;
+        }
+
+        .loyalty-brand {
+            font-size: 25px;
+            font-weight: 800;
+            margin-top: 7px;
+        }
+
+        .loyalty-number {
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: #aaa;
+            margin-top: 22px;
+        }
+
+        .loyalty-tier {
+            font-size: 17px;
+            font-weight: 800;
+            margin-top: 3px;
+        }
+
+        .loyalty-progress {
+            height: 4px;
+            background: #383838;
+            margin-top: 15px;
+        }
+
+        .loyalty-progress .progress-bar {
+            background: #fff;
+        }
+
+        /* =====================================================
+           SETTINGS
+        ===================================================== */
+
+        .settings-card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .setting-row {
+            padding: 15px 17px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .setting-row:last-child {
+            border-bottom: 0;
+        }
+
+        .setting-title {
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .setting-description {
+            color: #8b8780;
+            font-size: 10px;
+            margin-top: 3px;
+        }
+
+        .form-check-input:checked {
+            background-color: #111;
+            border-color: #111;
+        }
+
+        /* =====================================================
+           PROFILE
+        ===================================================== */
+
+        .profile-avatar {
+            width: 82px;
+            height: 82px;
+            border-radius: 50%;
+            background: #111;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 29px;
+            margin: auto;
+        }
+
+        /* =====================================================
+           MODAL
+        ===================================================== */
+
+        .modal-content {
+            border: 0;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-footer {
+            border-top: 1px solid #eee;
+        }
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .footer {
+            background: #111;
+            color: #fff;
+            padding: 45px 0 25px;
+            margin-top: 30px;
+        }
+
+        .footer h6 {
+            font-size: 12px;
+            font-weight: 800;
+            margin-bottom: 13px;
+        }
+
+        .footer p,
+        .footer li {
+            color: #aaa;
+            font-size: 11px;
+            line-height: 1.8;
+        }
+
+        .footer ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer a {
+            color: #aaa;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: #fff;
+        }
+
+        /* =====================================================
+           ANIMATION
+        ===================================================== */
+
+        @keyframes fadeUp {
+
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 1199px) {
+
+            .dashboard-main {
+                padding: 35px 25px;
+            }
+
+            .featured-title {
+                font-size: 29px;
+            }
+
+        }
+
+        @media (max-width: 991px) {
+
+            .dashboard-side {
+                position: static;
+                min-height: auto;
+            }
+
+            .dashboard-main {
+                padding: 30px 20px;
+            }
+
+            .member-box {
+                margin-top: 20px;
+            }
+
+        }
+
+        @media (max-width: 767px) {
+
+            .dashboard-main {
+                padding: 25px 15px;
+            }
+
+            .welcome-title {
+                font-size: 34px;
+            }
+
+            .featured-event,
+            .featured-image {
+                min-height: 380px;
+                height: 380px;
+            }
+
+            .featured-content {
+                padding: 25px;
+            }
+
+            .featured-title {
+                font-size: 28px;
+            }
+
+            .header-search {
+                display: none;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="site-header">
+
+    <div class="container-fluid px-4 h-100">
+
+        <div class="d-flex align-items-center h-100 gap-4">
+
+            <!-- LOGO -->
+
+            <a
+                href="index.html"
+                class="brand text-decoration-none"
+            >
+
+                <i class="bi bi-calendar-event"></i>
+                Eventify
+
+            </a>
+
+
+            <!-- NAVIGATION -->
+
+            <nav class="d-none d-lg-flex gap-3">
+
+                <a
+                    class="nav-link"
+                    href="explore.html"
+                >
+                    Discover
+                </a>
+
+                <a
+                    class="nav-link"
+                    href="explore.html?q=Music"
+                >
+                    Music
+                </a>
+
+                <a
+                    class="nav-link"
+                    href="explore.html?q=Tech"
+                >
+                    Tech
+                </a>
+
+                <a
+                    class="nav-link"
+                    href="explore.html?q=Wellness"
+                >
+                    Wellness
+                </a>
+
+                <a
+                    class="nav-link"
+                    href="explore.html?q=Culinary"
+                >
+                    Culinary
+                </a>
+
+            </nav>
+
+
+            <!-- RIGHT -->
+
+            <div class="ms-auto d-flex align-items-center gap-3">
+
+
+                <!-- SEARCH -->
+
+                <form
+                    id="dashboardSearch"
+                    class="header-search d-none d-md-block"
+                >
+
+                    <div class="input-group">
+
+                        <span class="input-group-text">
+                            <i class="bi bi-search"></i>
+                        </span>
+
+                        <input
+                            type="search"
+                            id="headerSearch"
+                            class="form-control"
+                            placeholder="Search events..."
+                        >
+
+                    </div>
+
+                </form>
+
+
+                <!-- FAVORITES -->
+
+                <a
+                    href="favorites.html"
+                    class="header-icon"
+                    title="Favorites"
+                >
+
+                    <i class="bi bi-heart"></i>
+
+                    <span
+                        id="favoriteCount"
+                        class="badge bg-dark rounded-pill favorite-count"
+                    >
+                        0
+                    </span>
+
+                </a>
+
+
+                <!-- PROFILE -->
+
+                <a
+                    href="dashboard.html"
+                    class="header-icon"
+                    title="Dashboard"
+                >
+                    <i class="bi bi-person-circle"></i>
+                </a>
+
+
+                <span class="header-divider d-none d-md-block"></span>
+
+
+                <!-- LOGOUT -->
+
+                <a
+                    href="#"
+                    id="logout"
+                    class="header-link"
+                >
+                    Log out
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     DASHBOARD
+===================================================== -->
+
+<div class="container-fluid">
+
+    <div class="row">
+
+
+        <!-- =================================================
+             SIDEBAR
+        ================================================== -->
+
+        <aside class="col-lg-2 dashboard-side">
+
+            <div class="account-label">
+                ACCOUNT MENU
+            </div>
+
+
+            <a
+                class="side-link active"
+                href="#overview"
+            >
+                <i class="bi bi-grid"></i>
+                Overview
+            </a>
+
+
+            <a
+                class="side-link"
+                href="#bookings"
+            >
+                <i class="bi bi-ticket-perforated"></i>
+                Active Bookings
+            </a>
+
+
+            <a
+                class="side-link"
+                href="#history"
+            >
+                <i class="bi bi-clock-history"></i>
+                History
+            </a>
+
+
+            <a
+                class="side-link"
+                href="#settings"
+            >
+                <i class="bi bi-gear"></i>
+                Settings
+            </a>
+
+
+            <!-- MEMBER -->
+
+            <div class="member-box">
+
+                <div class="small-note">
+                    MEMBER SINCE
+                </div>
+
+                <strong id="memberSince">
+                    -
+                </strong>
+
+
+                <button
+                    type="button"
+                    class="action-btn w-100 mt-3 justify-content-center"
+                    data-bs-toggle="modal"
+                    data-bs-target="#profileModal"
+                >
+
+                    <i class="bi bi-person"></i>
+                    View Profile
+
+                </button>
+
+            </div>
+
+        </aside>
+
+
+        <!-- =================================================
+             MAIN
+        ================================================== -->
+
+        <main
+            class="col-lg-10 dashboard-main"
+            id="overview"
+        >
+
+
+            <!-- =================================================
+                 WELCOME
+            ================================================== -->
+
+            <section class="welcome-row">
+
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-4">
+
+                    <div>
+
+                        <div class="eyebrow">
+                            YOUR EVENTIFY SPACE
+                        </div>
+
+                        <h1 class="welcome-title">
+                            Welcome back,
+                            <span id="userName">User</span>
+                        </h1>
+
+                        <p class="welcome-text">
+                            Your events, bookings and favourite experiences — all in one place.
+                        </p>
+
+                    </div>
+
+
+                    <div class="d-flex gap-2 flex-wrap">
+
+                        <button
+                            type="button"
+                            class="action-btn"
+                            data-bs-toggle="modal"
+                            data-bs-target="#profileModal"
+                        >
+                            <i class="bi bi-person"></i>
+                            Profile
+                        </button>
+
+
+                        <a
+                            href="explore.html"
+                            class="action-btn dark"
+                        >
+                            <i class="bi bi-compass"></i>
+                            Find Events
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 STATS
+            ================================================== -->
+
+            <section class="stats-row">
+
+                <div class="row g-3">
+
+
+                    <div class="col-sm-6 col-xl-3">
+
+                        <div class="stat-card">
+
+                            <div class="stat-icon">
+                                <i class="bi bi-ticket-perforated"></i>
+                            </div>
+
+                            <div class="stat-label">
+                                TOTAL BOOKINGS
+                            </div>
+
+                            <div
+                                class="stat-number"
+                                id="totalBookings"
+                            >
+                                0
+                            </div>
+
+                            <div class="stat-description">
+                                Lifetime registrations
+                            </div>
+
+                            <i class="bi bi-arrow-up-right stat-arrow"></i>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-sm-6 col-xl-3">
+
+                        <div class="stat-card">
+
+                            <div class="stat-icon">
+                                <i class="bi bi-calendar-check"></i>
+                            </div>
+
+                            <div class="stat-label">
+                                UPCOMING
+                            </div>
+
+                            <div
+                                class="stat-number"
+                                id="upcomingCount"
+                            >
+                                0
+                            </div>
+
+                            <div class="stat-description">
+                                Confirmed events
+                            </div>
+
+                            <i class="bi bi-arrow-up-right stat-arrow"></i>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-sm-6 col-xl-3">
+
+                        <div class="stat-card">
+
+                            <div class="stat-icon">
+                                <i class="bi bi-wallet2"></i>
+                            </div>
+
+                            <div class="stat-label">
+                                WALLET BALANCE
+                            </div>
+
+                            <div class="stat-number">
+                                ₹4,520
+                            </div>
+
+                            <div class="stat-description">
+                                Available for checkout
+                            </div>
+
+                            <i class="bi bi-arrow-up-right stat-arrow"></i>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-sm-6 col-xl-3">
+
+                        <div class="stat-card">
+
+                            <div class="stat-icon">
+                                <i class="bi bi-stars"></i>
+                            </div>
+
+                            <div class="stat-label">
+                                LOYALTY POINTS
+                            </div>
+
+                            <div
+                                class="stat-number"
+                                id="loyaltyPoints"
+                            >
+                                1,240
+                            </div>
+
+                            <div class="stat-description">
+                                Silver tier member
+                            </div>
+
+                            <i class="bi bi-arrow-up-right stat-arrow"></i>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 FEATURED + RECOMMENDED
+            ================================================== -->
+
+            <div class="row g-4 mt-3">
+
+
+                <!-- FEATURED -->
+
+                <section
+                    class="col-xl-8"
+                    id="bookings"
+                >
+
+                    <div class="d-flex justify-content-between align-items-end mb-3">
+
+                        <div>
+
+                            <h2 class="section-heading">
+                                Your next experience
+                            </h2>
+
+                            <div class="section-description">
+                                Make memories that last beyond the event.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="featured-event">
+
+                        <img
+                            id="upcomingImage"
+                            class="featured-image"
+                            src="assets/images/culinary.jpg"
+                            alt="Upcoming event"
+                        >
+
+                        <div class="featured-overlay"></div>
+
+
+                        <div class="featured-content">
+
+                            <span class="event-label">
+                                Upcoming Next
+                            </span>
+
+
+                            <h3
+                                id="upcomingTitle"
+                                class="featured-title"
+                            >
+                                Taste of Gujarat
+                            </h3>
+
+
+                            <div class="featured-meta">
+
+                                <div>
+                                    <i class="bi bi-calendar3"></i>
+                                    <span id="upcomingDate">
+                                        October 3, 2026
+                                    </span>
+                                </div>
+
+                                <div>
+                                    <i class="bi bi-clock"></i>
+                                    7:00 PM
+                                </div>
+
+                                <div>
+                                    <i class="bi bi-geo-alt"></i>
+                                    Rajkot, Gujarat
+                                </div>
+
+                            </div>
+
+
+                            <div class="featured-actions d-flex gap-2 flex-wrap">
+
+                                <button
+                                    type="button"
+                                    class="featured-btn"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#ticketModal"
+                                >
+                                    <i class="bi bi-ticket-perforated me-1"></i>
+                                    View Ticket
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    class="featured-btn outline"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modifyModal"
+                                >
+                                    <i class="bi bi-pencil me-1"></i>
+                                    Modify Booking
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- QUICK ACTIONS -->
+
+                    <div class="row g-3 mt-1">
+
+
+                        <div class="col-md-4">
+
+                            <a
+                                href="explore.html"
+                                class="text-decoration-none"
+                            >
+
+                                <div class="quick-card">
+
+                                    <div class="quick-icon">
+                                        <i class="bi bi-compass"></i>
+                                    </div>
+
+                                    <strong>
+                                        Discover Events
+                                    </strong>
+
+                                    <span>
+                                        Find something new
+                                    </span>
+
+                                </div>
+
+                            </a>
+
+                        </div>
+
+
+                        <div class="col-md-4">
+
+                            <a
+                                href="favorites.html"
+                                class="text-decoration-none"
+                            >
+
+                                <div class="quick-card">
+
+                                    <div class="quick-icon">
+                                        <i class="bi bi-heart"></i>
+                                    </div>
+
+                                    <strong>
+                                        My Favorites
+                                    </strong>
+
+                                    <span>
+                                        Your saved events
+                                    </span>
+
+                                </div>
+
+                            </a>
+
+                        </div>
+
+
+                        <div class="col-md-4">
+
+                            <button
+                                type="button"
+                                class="quick-card w-100 text-start border"
+                                data-bs-toggle="modal"
+                                data-bs-target="#profileModal"
+                            >
+
+                                <div class="quick-icon">
+                                    <i class="bi bi-person-gear"></i>
+                                </div>
+
+                                <strong>
+                                    Edit Profile
+                                </strong>
+
+                                <span>
+                                    Keep your details updated
+                                </span>
+
+                            </button>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- BOOKING HISTORY -->
+
+                    <div
+                        class="d-flex justify-content-between align-items-end mt-5 mb-3"
+                    >
+
+                        <div>
+
+                            <h2 class="section-heading">
+                                Booking history
+                            </h2>
+
+                            <div class="section-description">
+                                Your recent event registrations.
+                            </div>
+
+                        </div>
+
+
+                        <button
+                            id="viewAllBookings"
+                            class="action-btn"
+                        >
+                            View All
+                            <i class="bi bi-arrow-right"></i>
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        class="booking-wrapper table-responsive"
+                        id="history"
+                    >
+
+                        <table class="table booking-table">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>ORDER ID</th>
+                                    <th>EVENT</th>
+                                    <th>DATE</th>
+                                    <th>STATUS</th>
+                                    <th>AMOUNT</th>
+                                    <th></th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="bookingTableBody"></tbody>
+
+                        </table>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     RIGHT COLUMN
+                ================================================== -->
+
+                <aside class="col-xl-4">
+
+
+                    <!-- RECOMMENDED -->
+
+                    <div class="d-flex justify-content-between align-items-end mb-3">
+
+                        <div>
+
+                            <h2 class="section-heading">
+                                For you
+                            </h2>
+
+                            <div class="section-description">
+                                Events matching your interests.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="recommendation-card"
+                        onclick="openEvent('EVT-002')"
+                    >
+
+                        <img
+                            src="assets/images/tech.jpg"
+                            alt="Future Tech Conference"
+                        >
+
+                        <div class="flex-grow-1">
+
+                            <div class="recommendation-title">
+                                Future Tech Conference
+                            </div>
+
+                            <div class="recommendation-meta">
+                                Sep 24 • Technology
+                                <i class="bi bi-arrow-right recommendation-arrow"></i>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="recommendation-card"
+                        onclick="openEvent('EVT-003')"
+                    >
+
+                        <img
+                            src="assets/images/wellness.jpg"
+                            alt="Mind and Body Retreat"
+                        >
+
+                        <div class="flex-grow-1">
+
+                            <div class="recommendation-title">
+                                Mind & Body Retreat
+                            </div>
+
+                            <div class="recommendation-meta">
+                                Sep 27 • Wellness
+                                <i class="bi bi-arrow-right recommendation-arrow"></i>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="recommendation-card"
+                        onclick="openEvent('EVT-007')"
+                    >
+
+                        <img
+                            src="assets/images/arts.jpg"
+                            alt="Modern Art Exhibition"
+                        >
+
+                        <div class="flex-grow-1">
+
+                            <div class="recommendation-title">
+                                Modern Art Exhibition
+                            </div>
+
+                            <div class="recommendation-meta">
+                                Oct 20 • Arts
+                                <i class="bi bi-arrow-right recommendation-arrow"></i>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <a
+                        href="explore.html"
+                        class="action-btn w-100 justify-content-center mt-1"
+                    >
+                        Explore more events
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+
+
+                    <!-- LOYALTY -->
+
+                    <div class="loyalty-card mt-5">
+
+                        <div class="loyalty-label">
+                            EVENTIFY LOYALTY PASS
+                        </div>
+
+                        <div class="loyalty-brand">
+                            E.
+                        </div>
+
+                        <div class="loyalty-number">
+                            NO. 8601 2293 8818
+                        </div>
+
+                        <div class="loyalty-tier">
+                            Silver Member
+                        </div>
+
+                        <div class="progress loyalty-progress">
+
+                            <div
+                                class="progress-bar"
+                                style="width:70%"
+                            ></div>
+
+                        </div>
+
+                        <div class="loyalty-label mt-2">
+                            850 points until Gold status
+                        </div>
+
+                    </div>
+
+
+                    <!-- SETTINGS -->
+
+                    <div
+                        class="d-flex justify-content-between align-items-end mt-5 mb-3"
+                        id="settings"
+                    >
+
+                        <div>
+
+                            <h2 class="section-heading">
+                                Preferences
+                            </h2>
+
+                            <div class="section-description">
+                                Control how Eventify keeps you informed.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="settings-card">
+
+
+                        <div class="setting-row d-flex justify-content-between align-items-center">
+
+                            <div>
+
+                                <div class="setting-title">
+                                    Email Alerts
+                                </div>
+
+                                <div class="setting-description">
+                                    Booking confirmations
+                                </div>
+
+                            </div>
+
+                            <input
+                                class="form-check-input setting-toggle"
+                                type="checkbox"
+                                data-setting="email"
+                                checked
+                            >
+
+                        </div>
+
+
+                        <div class="setting-row d-flex justify-content-between align-items-center">
+
+                            <div>
+
+                                <div class="setting-title">
+                                    Push Notifications
+                                </div>
+
+                                <div class="setting-description">
+                                    Reminders and updates
+                                </div>
+
+                            </div>
+
+                            <input
+                                class="form-check-input setting-toggle"
+                                type="checkbox"
+                                data-setting="push"
+                                checked
+                            >
+
+                        </div>
+
+
+                        <div class="setting-row d-flex justify-content-between align-items-center">
+
+                            <div>
+
+                                <div class="setting-title">
+                                    Marketing
+                                </div>
+
+                                <div class="setting-description">
+                                    Deals and event updates
+                                </div>
+
+                            </div>
+
+                            <input
+                                class="form-check-input setting-toggle"
+                                type="checkbox"
+                                data-setting="marketing"
+                            >
+
+                        </div>
+
+
+                    </div>
+
+                </aside>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="footer">
+
+    <div class="container">
+
+        <div class="row g-4">
+
+            <div class="col-lg-4">
+
+                <h6>
+                    Eventify
+                </h6>
+
+                <p>
+                    Discover experiences, connect with communities,
+                    and make every event memorable.
+                </p>
+
+            </div>
+
+
+            <div class="col-lg-2">
+
+                <h6>
+                    Explore
+                </h6>
+
+                <ul>
+
+                    <li>
+                        <a href="explore.html?q=Music">
+                            Music
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="explore.html?q=Tech">
+                            Technology
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="explore.html?q=Wellness">
+                            Wellness
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="explore.html?q=Culinary">
+                            Culinary
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <div class="col-lg-2">
+
+                <h6>
+                    Support
+                </h6>
+
+                <ul>
+
+                    <li>
+                        <a href="#">
+                            Help Center
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            Privacy
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            Terms
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <div class="col-lg-4">
+
+                <h6>
+                    Reach Out
+                </h6>
+
+                <p>
+
+                    <i class="bi bi-geo-alt"></i>
+                    123 Event Street, Gujarat
+
+                    <br>
+
+                    <i class="bi bi-envelope"></i>
+                    support@eventify.com
+
+                    <br>
+
+                    <i class="bi bi-telephone"></i>
+                    +91 98765 43210
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <hr>
+
+
+        <div class="small-note">
+            © 2026 Eventify. All rights reserved.
+        </div>
+
+    </div>
+
+</footer>
+
+
+<!-- =====================================================
+     TICKET MODAL
+===================================================== -->
+
+<div
+    class="modal fade"
+    id="ticketModal"
+    tabindex="-1"
+>
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title">
+                    <i class="bi bi-ticket-perforated me-1"></i>
+                    Your Ticket
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                ></button>
+
+            </div>
+
+
+            <div class="modal-body">
+
+                <div class="border rounded-3 p-4">
+
+                    <div class="small-note">
+                        EVENTIFY DIGITAL PASS
+                    </div>
+
+                    <h4 class="mt-2">
+                        Taste of Gujarat
+                    </h4>
+
+                    <p>
+                        <i class="bi bi-calendar me-1"></i>
+                        October 3, 2026
+                    </p>
+
+                    <p>
+                        <i class="bi bi-clock me-1"></i>
+                        7:00 PM
+                    </p>
+
+                    <p>
+                        <i class="bi bi-geo-alt me-1"></i>
+                        Rajkot, Gujarat
+                    </p>
+
+                    <hr>
+
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Order ID</span>
+                        <strong>EVT-82910</strong>
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Tickets</span>
+                        <strong id="ticketQuantity">2</strong>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <span>Status</span>
+                        <strong class="text-success">
+                            Confirmed
+                        </strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="action-btn"
+                    onclick="window.print()"
+                >
+                    <i class="bi bi-printer"></i>
+                    Print Ticket
+                </button>
+
+                <button
+                    type="button"
+                    class="btn btn-dark"
+                    data-bs-dismiss="modal"
+                >
+                    Close
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     MODIFY MODAL
+===================================================== -->
+
+<div
+    class="modal fade"
+    id="modifyModal"
+    tabindex="-1"
+>
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <form
+                id="modifyForm"
+                class="needs-validation"
+                novalidate
+            >
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title">
+                        Modify Booking
+                    </h5>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                    ></button>
+
+                </div>
+
+
+                <div class="modal-body">
+
+                    <div class="mb-3">
+
+                        <label
+                            class="form-label"
+                            for="modifyTickets"
+                        >
+                            Number of Tickets
+                        </label>
+
+                        <input
+                            type="number"
+                            id="modifyTickets"
+                            class="form-control"
+                            min="1"
+                            max="10"
+                            value="2"
+                            required
+                        >
+
+                        <div class="invalid-feedback">
+                            Please enter between 1 and 10 tickets.
+                        </div>
+
+                    </div>
+
+
+                    <div class="mb-3">
+
+                        <label
+                            class="form-label"
+                            for="modifyEmail"
+                        >
+                            Email
+                        </label>
+
+                        <input
+                            type="email"
+                            id="modifyEmail"
+                            class="form-control"
+                            placeholder="you@example.com"
+                            required
+                        >
+
+                        <div class="invalid-feedback">
+                            Please enter a valid email.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="modal-footer">
+
+                    <button
+                        type="button"
+                        class="action-btn"
+                        data-bs-dismiss="modal"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="btn btn-dark"
+                    >
+                        Save Changes
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     PROFILE MODAL
+===================================================== -->
+
+<div
+    class="modal fade"
+    id="profileModal"
+    tabindex="-1"
+>
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <form
+                id="profileForm"
+                class="needs-validation"
+                novalidate
+            >
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title">
+                        My Profile
+                    </h5>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                    ></button>
+
+                </div>
+
+
+                <div class="modal-body">
+
+                    <div class="profile-avatar mb-3">
+                        <i class="bi bi-person"></i>
+                    </div>
+
+
+                    <div class="mb-3">
+
+                        <label
+                            for="profileName"
+                            class="form-label"
+                        >
+                            Full Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="profileName"
+                            class="form-control"
+                            minlength="2"
+                            maxlength="50"
+                            required
+                        >
+
+                        <div class="invalid-feedback">
+                            Please enter your name.
+                        </div>
+
+                    </div>
+
+
+                    <div class="mb-3">
+
+                        <label
+                            for="profileEmail"
+                            class="form-label"
+                        >
+                            Email
+                        </label>
+
+                        <input
+                            type="email"
+                            id="profileEmail"
+                            class="form-control"
+                            required
+                        >
+
+                        <div class="invalid-feedback">
+                            Please enter a valid email address.
+                        </div>
+
+                    </div>
+
+
+                    <div class="mb-3">
+
+                        <label
+                            for="profileCity"
+                            class="form-label"
+                        >
+                            City
+                        </label>
+
+                        <input
+                            type="text"
+                            id="profileCity"
+                            class="form-control"
+                            minlength="2"
+                            maxlength="50"
+                            required
+                        >
+
+                        <div class="invalid-feedback">
+                            Please enter your city.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="modal-footer">
+
+                    <button
+                        type="button"
+                        class="action-btn"
+                        data-bs-dismiss="modal"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="btn btn-dark"
+                    >
+                        Save Profile
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     TOAST
+===================================================== -->
+
+<div
+    id="dashboardToast"
+    class="toast position-fixed bottom-0 end-0 m-4"
+    role="alert"
+>
+
+    <div class="toast-header">
+
+        <i class="bi bi-check-circle me-2"></i>
+
+        <strong class="me-auto">
+            Eventify
+        </strong>
+
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="toast"
+        ></button>
+
+    </div>
+
+    <div
+        id="toastMessage"
+        class="toast-body"
+    >
+        Done!
+    </div>
+
+</div>
+
+
+<!-- Bootstrap JS -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+></script>
+
+
+<!-- Eventify JS -->
+
+<script src="assets/js/app.js"></script>
+
+
+<script>
+
+"use strict";
+
+
+/* =====================================================
+   USER
+===================================================== */
+
+function getLoggedInUser() {
+
+    try {
+
+        const savedUser =
+            localStorage.getItem("eventifyUser");
+
+        if (!savedUser) {
+            return null;
+        }
+
+        const user =
+            JSON.parse(savedUser);
+
+        if (!user || !user.name || !user.email) {
+            return null;
+        }
+
+        return user;
+
+    } catch (error) {
+
+        return null;
+
+    }
+
+}
+
+
+function loadUser() {
+
+    const user = getLoggedInUser();
+
+    if (!user) {
+
+        window.location.href =
+            "login.html";
+
+        return;
+
+    }
+
+
+    const userName =
+        document.getElementById("userName");
+
+    const profileName =
+        document.getElementById("profileName");
+
+    const profileEmail =
+        document.getElementById("profileEmail");
+
+    const profileCity =
+        document.getElementById("profileCity");
+
+    const memberSince =
+        document.getElementById("memberSince");
+
+
+    if (userName) {
+        userName.textContent = user.name;
+    }
+
+    if (profileName) {
+        profileName.value = user.name || "";
+    }
+
+    if (profileEmail) {
+        profileEmail.value = user.email || "";
+    }
+
+    if (profileCity) {
+        profileCity.value = user.city || "";
+    }
+
+    if (memberSince) {
+        memberSince.textContent =
+            user.memberSince || "September 2026";
+    }
+
+}
+
+
+/* =====================================================
+   FAVORITES
+===================================================== */
+
+function updateFavoriteCount() {
+
+    let favorites = [];
+
+    try {
+
+        favorites =
+            JSON.parse(
+                localStorage.getItem(
+                    "eventifyFavorites"
+                )
+            ) || [];
+
+    } catch {
+
+        favorites = [];
+
+    }
+
+
+    const count =
+        document.getElementById(
+            "favoriteCount"
+        );
+
+
+    if (count) {
+        count.textContent =
+            favorites.length;
+    }
+
+}
+
+
+/* =====================================================
+   EVENTS
+===================================================== */
+
+const dashboardEvents = [
+
+    {
+        id: "EVT-001",
+        title: "Jazz Under The Stars",
+        date: "September 18, 2026",
+        image: "assets/images/jazz.jpg"
+    },
+
+    {
+        id: "EVT-002",
+        title: "Future Tech Conference",
+        date: "September 24, 2026",
+        image: "assets/images/tech.jpg"
+    },
+
+    {
+        id: "EVT-003",
+        title: "Mind & Body Retreat",
+        date: "September 27, 2026",
+        image: "assets/images/wellness.jpg"
+    },
+
+    {
+        id: "EVT-004",
+        title: "Taste of Gujarat",
+        date: "October 3, 2026",
+        image: "assets/images/culinary.jpg"
+    },
+
+    {
+        id: "EVT-005",
+        title: "Gaming & Esports Fest",
+        date: "October 10, 2026",
+        image: "assets/images/gaming.jpg"
+    },
+
+    {
+        id: "EVT-006",
+        title: "Live Music Festival",
+        date: "October 17, 2026",
+        image: "assets/images/concert.jpg"
+    },
+
+    {
+        id: "EVT-007",
+        title: "Modern Art Exhibition",
+        date: "October 20, 2026",
+        image: "assets/images/arts.jpg"
+    },
+
+    {
+        id: "EVT-008",
+        title: "Creative Design Workshop",
+        date: "October 23, 2026",
+        image: "assets/images/design.jpg"
+    },
+
+    {
+        id: "EVT-009",
+        title: "AI & Machine Learning Workshop",
+        date: "October 25, 2026",
+        image: "assets/images/ai.jpg"
+    },
+
+    {
+        id: "EVT-010",
+        title: "Sunset Acoustic Night",
+        date: "October 28, 2026",
+        image: "assets/images/acoustic.jpg"
+    },
+
+    {
+        id: "EVT-011",
+        title: "Healthy Living Workshop",
+        date: "October 30, 2026",
+        image: "assets/images/health.jpg"
+    },
+
+    {
+        id: "EVT-012",
+        title: "Street Food Festival",
+        date: "November 1, 2026",
+        image: "assets/images/food.jpg"
+    }
+
+];
+
+
+/* =====================================================
+   BOOKINGS
+===================================================== */
+
+const bookings = [
+
+    {
+        id: "EVT-82910",
+        event: "Taste of Gujarat",
+        date: "Oct 03, 2026",
+        status: "Confirmed",
+        amount: "₹1,598"
+    },
+
+    {
+        id: "EVT-71552",
+        event: "Mind & Body Retreat",
+        date: "Sep 27, 2026",
+        status: "Upcoming",
+        amount: "₹999"
+    },
+
+    {
+        id: "EVT-66281",
+        event: "Future Tech Conference",
+        date: "Sep 24, 2026",
+        status: "Upcoming",
+        amount: "₹1,499"
+    },
+
+    {
+        id: "EVT-55182",
+        event: "Jazz Under The Stars",
+        date: "Sep 18, 2026",
+        status: "Completed",
+        amount: "₹799"
+    },
+
+    {
+        id: "EVT-44819",
+        event: "Creative Design Workshop",
+        date: "Aug 20, 2026",
+        status: "Cancelled",
+        amount: "₹599"
+    }
+
+];
+
+
+/* =====================================================
+   RENDER BOOKINGS
+===================================================== */
+
+function renderBookings() {
+
+    const tbody =
+        document.getElementById(
+            "bookingTableBody"
+        );
+
+    if (!tbody) {
+        return;
+    }
+
+    tbody.innerHTML = "";
+
+
+    bookings.forEach(function (booking) {
+
+        let statusClass =
+            "status-completed";
+
+
+        if (booking.status === "Confirmed") {
+            statusClass =
+                "status-confirmed";
+        }
+
+
+        if (booking.status === "Upcoming") {
+            statusClass =
+                "status-upcoming";
+        }
+
+
+        if (booking.status === "Cancelled") {
+            statusClass =
+                "status-cancelled";
+        }
+
+
+        const row =
+            document.createElement("tr");
+
+
+        row.innerHTML = `
+
+            <td>
+                <strong>${booking.id}</strong>
+            </td>
+
+            <td>
+                ${booking.event}
+            </td>
+
+            <td>
+                ${booking.date}
+            </td>
+
+            <td>
+                <span class="status-badge ${statusClass}">
+                    ${booking.status}
+                </span>
+            </td>
+
+            <td>
+                <strong>${booking.amount}</strong>
+            </td>
+
+            <td>
+                <button
+                    type="button"
+                    class="table-action"
+                    onclick="showBooking('${booking.id}')"
+                >
+                    <i class="bi bi-three-dots"></i>
+                </button>
+            </td>
+
+        `;
+
+
+        tbody.appendChild(row);
+
+    });
+
+
+    const total =
+        document.getElementById(
+            "totalBookings"
+        );
+
+    const upcoming =
+        document.getElementById(
+            "upcomingCount"
+        );
+
+
+    if (total) {
+        total.textContent =
+            bookings.length;
+    }
+
+
+    if (upcoming) {
+
+        upcoming.textContent =
+            bookings.filter(function (booking) {
+
+                return (
+                    booking.status === "Upcoming" ||
+                    booking.status === "Confirmed"
+                );
+
+            }).length;
+
+    }
+
+}
+
+
+/* =====================================================
+   BOOKING DETAILS
+===================================================== */
+
+function showBooking(id) {
+
+    const booking =
+        bookings.find(function (item) {
+
+            return item.id === id;
+
+        });
+
+
+    if (!booking) {
+        return;
+    }
+
+
+    showToast(
+        booking.event +
+        " • " +
+        booking.status +
+        " • " +
+        booking.amount
+    );
+
+}
+
+
+/* =====================================================
+   EVENT
+===================================================== */
+
+function openEvent(id) {
+
+    window.location.href =
+        "event-details.html?id=" +
+        encodeURIComponent(id);
+
+}
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+const dashboardSearch =
+    document.getElementById(
+        "dashboardSearch"
+    );
+
+
+if (dashboardSearch) {
+
+    dashboardSearch.addEventListener(
+        "submit",
+        function (event) {
+
+            event.preventDefault();
+
+
+            const searchInput =
+                document.getElementById(
+                    "headerSearch"
+                );
+
+
+            const query =
+                searchInput.value.trim();
+
+
+            if (!query) {
+
+                showToast(
+                    "Please enter an event to search."
+                );
+
+                searchInput.focus();
+
+                return;
+
+            }
+
+
+            window.location.href =
+                "explore.html?q=" +
+                encodeURIComponent(query);
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   PROFILE
+===================================================== */
+
+const profileForm =
+    document.getElementById(
+        "profileForm"
+    );
+
+
+if (profileForm) {
+
+    profileForm.addEventListener(
+        "submit",
+        function (event) {
+
+            event.preventDefault();
+
+            event.stopPropagation();
+
+
+            if (!this.checkValidity()) {
+
+                this.classList.add(
+                    "was-validated"
+                );
+
+                return;
+
+            }
+
+
+            const oldUser =
+                getLoggedInUser();
+
+
+            if (!oldUser) {
+
+                window.location.href =
+                    "login.html";
+
+                return;
+
+            }
+
+
+            const updatedUser = {
+
+                name:
+                    document
+                        .getElementById("profileName")
+                        .value
+                        .trim(),
+
+                email:
+                    document
+                        .getElementById("profileEmail")
+                        .value
+                        .trim()
+                        .toLowerCase(),
+
+                city:
+                    document
+                        .getElementById("profileCity")
+                        .value
+                        .trim(),
+
+                password:
+                    oldUser.password,
+
+                memberSince:
+                    oldUser.memberSince ||
+                    "September 2026"
+
+            };
+
+
+            localStorage.setItem(
+                "eventifyUser",
+                JSON.stringify(updatedUser)
+            );
+
+
+            loadUser();
+
+
+            const modal =
+                bootstrap.Modal.getInstance(
+                    document.getElementById(
+                        "profileModal"
+                    )
+                );
+
+
+            if (modal) {
+                modal.hide();
+            }
+
+
+            showToast(
+                "Profile updated successfully."
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   MODIFY BOOKING
+===================================================== */
+
+const modifyForm =
+    document.getElementById(
+        "modifyForm"
+    );
+
+
+if (modifyForm) {
+
+    modifyForm.addEventListener(
+        "submit",
+        function (event) {
+
+            event.preventDefault();
+
+            event.stopPropagation();
+
+
+            if (!this.checkValidity()) {
+
+                this.classList.add(
+                    "was-validated"
+                );
+
+                return;
+
+            }
+
+
+            const tickets =
+                document.getElementById(
+                    "modifyTickets"
+                ).value;
+
+
+            localStorage.setItem(
+                "eventifyTicketCount",
+                tickets
+            );
+
+
+            const ticketQuantity =
+                document.getElementById(
+                    "ticketQuantity"
+                );
+
+
+            if (ticketQuantity) {
+
+                ticketQuantity.textContent =
+                    tickets;
+
+            }
+
+
+            const modal =
+                bootstrap.Modal.getInstance(
+                    document.getElementById(
+                        "modifyModal"
+                    )
+                );
+
+
+            if (modal) {
+                modal.hide();
+            }
+
+
+            showToast(
+                "Booking updated successfully."
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   SETTINGS
+===================================================== */
+
+document
+    .querySelectorAll(".setting-toggle")
+    .forEach(function (toggle) {
+
+        const setting =
+            toggle.dataset.setting;
+
+
+        const saved =
+            localStorage.getItem(
+                "eventifySetting_" +
+                setting
+            );
+
+
+        if (saved !== null) {
+
+            toggle.checked =
+                saved === "true";
+
+        }
+
+
+        toggle.addEventListener(
+            "change",
+            function () {
+
+                localStorage.setItem(
+
+                    "eventifySetting_" +
+                    setting,
+
+                    toggle.checked
+
+                );
+
+
+                showToast(
+
+                    toggle.checked
+
+                        ? setting +
+                          " notifications enabled."
+
+                        : setting +
+                          " notifications disabled."
+
+                );
+
+            }
+        );
+
+    });
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+const logout =
+    document.getElementById(
+        "logout"
+    );
+
+
+if (logout) {
+
+    logout.addEventListener(
+        "click",
+        function (event) {
+
+            event.preventDefault();
+
+
+            localStorage.removeItem(
+                "eventifyUser"
+            );
+
+            localStorage.removeItem(
+                "eventifyLoggedIn"
+            );
+
+
+            showToast(
+                "Logging out..."
+            );
+
+
+            setTimeout(function () {
+
+                window.location.href =
+                    "login.html";
+
+            }, 700);
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   VIEW ALL
+===================================================== */
+
+const viewAllBookings =
+    document.getElementById(
+        "viewAllBookings"
+    );
+
+
+if (viewAllBookings) {
+
+    viewAllBookings.addEventListener(
+        "click",
+        function () {
+
+            const history =
+                document.getElementById(
+                    "history"
+                );
+
+
+            if (history) {
+
+                history.scrollIntoView({
+                    behavior: "smooth"
+                });
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function showToast(message) {
+
+    const messageElement =
+        document.getElementById(
+            "toastMessage"
+        );
+
+
+    if (messageElement) {
+        messageElement.textContent =
+            message;
+    }
+
+
+    const toastElement =
+        document.getElementById(
+            "dashboardToast"
+        );
+
+
+    if (toastElement) {
+
+        const toast =
+            bootstrap.Toast
+                .getOrCreateInstance(
+                    toastElement,
+                    {
+                        delay: 2500
+                    }
+                );
+
+
+        toast.show();
+
+    }
+
+}
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const user =
+            getLoggedInUser();
+
+
+        if (!user) {
+
+            window.location.href =
+                "login.html";
+
+            return;
+
+        }
+
+
+        loadUser();
+
+        updateFavoriteCount();
+
+        renderBookings();
+
+
+        const savedTickets =
+            localStorage.getItem(
+                "eventifyTicketCount"
+            );
+
+
+        const ticketQuantity =
+            document.getElementById(
+                "ticketQuantity"
+            );
+
+
+        if (
+            savedTickets &&
+            ticketQuantity
+        ) {
+
+            ticketQuantity.textContent =
+                savedTickets;
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>

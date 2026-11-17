@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Contact | Eventify</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+        body{background:#f7f5ef;color:#111}
+        .contact-page{padding:70px 0 90px}
+        .contact-hero{max-width:760px;margin-bottom:50px}
+        .eyebrow{font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#777}
+        .contact-title{font-size:clamp(38px,5vw,60px);font-weight:800;letter-spacing:-2px;line-height:1;margin:12px 0 18px}
+        .contact-sub{color:#777;line-height:1.7}
+        .contact-card{background:#fff;border:1px solid #e3dfd6;padding:30px;border-radius:16px;height:100%}
+        .contact-card h2{font-size:25px;font-weight:800}
+        .info-box{border:1px solid #e3dfd6;padding:22px;border-radius:12px;background:#fff}
+        .info-item{display:flex;gap:14px;margin-bottom:25px}
+        .info-item:last-child{margin-bottom:0}
+        .info-icon{width:42px;height:42px;flex:0 0 42px;border:1px solid #ddd8ce;border-radius:10px;display:flex;align-items:center;justify-content:center}
+        .small-note{font-size:11px;letter-spacing:1px;color:#888;font-weight:800;text-transform:uppercase}
+        .form-label{font-size:13px;font-weight:700}
+        .form-control,.form-select{border-color:#dcd7ce;border-radius:9px;padding:11px 13px}
+        .form-control:focus,.form-select:focus{border-color:#111;box-shadow:0 0 0 .15rem rgba(0,0,0,.08)}
+        .wire-btn{background:#111;color:#fff;border:1px solid #111;border-radius:9px;padding:11px 18px;font-weight:700;font-size:13px}
+        .wire-btn:hover{background:#fff;color:#111}
+        .faq .accordion-item{border-color:#e3dfd6}
+        .faq .accordion-button{font-weight:700;background:#fff;box-shadow:none}
+        .faq .accordion-button:not(.collapsed){color:#111;background:#f8f6f1}
+        .status{background:#fff;border:1px solid #e3dfd6;border-radius:12px;padding:15px;font-size:13px}
+        .map-placeholder{min-height:230px;background:#eae7df;border:1px solid #ddd8ce;display:flex;align-items:center;justify-content:center;text-align:center;border-radius:14px;font-weight:800;letter-spacing:1px}
+        .social-btn{width:42px;height:42px;padding:0;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;margin-right:7px}
+        .toast-msg{position:fixed;right:24px;bottom:24px;z-index:3000;border-radius:10px;display:none}
+        @media(max-width:767px){.contact-page{padding:45px 0 60px}.contact-card{padding:22px}.contact-title{letter-spacing:-1px}}
+    </style>
+</head>
+
+<body>
+
+<header class="site-header">
+    <div class="container-fluid px-4 h-100">
+        <div class="d-flex align-items-center h-100 gap-4">
+            <a href="index.html" class="brand">▣ Eventify</a>
+
+            <nav class="d-none d-lg-flex gap-3">
+                <a class="nav-link" href="explore.html">Discover</a>
+                <a class="nav-link" href="explore.html?q=Music">Music</a>
+                <a class="nav-link" href="explore.html?q=Tech">Tech</a>
+                <a class="nav-link" href="explore.html?q=Wellness">Wellness</a>
+                <a class="nav-link" href="explore.html?q=Culinary">Culinary</a>
+            </nav>
+
+            <div class="ms-auto d-flex align-items-center gap-3">
+                <a href="explore.html" class="d-none d-md-inline text-decoration-none">⌕ Search for events...</a>
+                <a href="favorites.html" class="text-decoration-none" title="Favorites">♡</a>
+                <a href="login.html" class="text-decoration-none">Log in</a>
+                <a href="signup.html" class="text-decoration-none">Sign up</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="contact-page">
+    <div class="container">
+
+        <section class="contact-hero">
+            <div class="eyebrow">Eventify Support</div>
+            <h1 class="contact-title">Contact Our Team</h1>
+            <p class="contact-sub">
+                Have questions about an upcoming event or need help with your booking?
+                Our support team is here to help you with tickets, payments, accounts and events.
+            </p>
+        </section>
+
+        <section class="mb-5">
+            <div class="row g-4">
+
+                <div class="col-lg-7">
+                    <div class="contact-card">
+                        <h2>Send us a Message</h2>
+                        <p class="contact-sub">
+                            Fill out the form below and we'll get back to you within 24 hours.
+                        </p>
+
+                        <form id="contactForm" class="needs-validation mt-4" novalidate>
+                            <div class="row g-3">
+
+                                <div class="col-md-6">
+                                    <label class="form-label">Full Name</label>
+                                    <input id="contactName" name="name" class="form-control"
+                                           placeholder="e.g. Alex Johnson"
+                                           minlength="2" maxlength="50"
+                                           pattern="[A-Za-z]+(?:[ '-][A-Za-z]+)*"
+                                           required>
+                                    <div class="invalid-feedback">
+                                        Enter a valid name using letters only.
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">Email Address</label>
+                                    <input id="contactEmail" name="email" type="email"
+                                           class="form-control"
+                                           placeholder="alex@example.com"
+                                           maxlength="100" required>
+                                    <div class="invalid-feedback">
+                                        Please enter a valid email address.
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <label class="form-label">Subject</label>
+                                    <input id="contactSubject" name="subject"
+                                           class="form-control"
+                                           placeholder="How can we help you?"
+                                           minlength="3" maxlength="100" required>
+                                    <div class="invalid-feedback">
+                                        Subject must be between 3 and 100 characters.
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <label class="form-label">Message</label>
+                                    <textarea id="contactMessage" name="message"
+                                              class="form-control" rows="6"
+                                              placeholder="Please describe your inquiry in detail..."
+                                              minlength="10" maxlength="1000"
+                                              required></textarea>
+                                    <div class="invalid-feedback">
+                                        Message must be between 10 and 1000 characters.
+                                    </div>
+                                </div>
+
+                                <div class="col-12 d-flex align-items-center gap-3">
+                                    <button class="wire-btn" type="submit">
+                                        <i class="bi bi-send me-2"></i>Send Message
+                                    </button>
+                                    <span id="formStatus" class="small text-muted"></span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-lg-5">
+                    <div class="contact-card">
+                        <h2>Get in Touch</h2>
+
+                        <div class="info-box mt-4">
+                            <div class="info-item">
+                                <div class="info-icon"><i class="bi bi-geo-alt"></i></div>
+                                <div>
+                                    <div class="small-note mb-1">Our Headquarters</div>
+                                    <div class="small">123 Creative Plaza, Suite 500<br>San Francisco, CA 94103</div>
+                                </div>
+                            </div>
+
+                            <div class="info-item">
+                                <div class="info-icon"><i class="bi bi-telephone"></i></div>
+                                <div>
+                                    <div class="small-note mb-1">Phone Support</div>
+                                    <div class="small">+1 (555) 123-4567<br>Mon - Fri, 9 AM - 6 PM PST</div>
+                                </div>
+                            </div>
+
+                            <div class="info-item">
+                                <div class="info-icon"><i class="bi bi-envelope"></i></div>
+                                <div>
+                                    <div class="small-note mb-1">Email Inquiries</div>
+                                    <div class="small">support@eventify.com<br>press@eventify.com</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="status mt-3">
+                            <i class="bi bi-check-circle-fill me-2"></i>
+                            <strong>Operating normally</strong><br>
+                            <span class="text-muted">Average response time: 2 hours.</span>
+                        </div>
+
+                        <div class="mt-4">
+                            <div class="small-note mb-2">Follow Us</div>
+                            <button class="wire-btn social-btn" type="button"><i class="bi bi-instagram"></i></button>
+                            <button class="wire-btn social-btn" type="button"><i class="bi bi-linkedin"></i></button>
+                            <button class="wire-btn social-btn" type="button"><i class="bi bi-facebook"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <div class="map-placeholder">
+                <div>
+                    <i class="bi bi-geo-alt fs-2 d-block mb-2"></i>
+                    EVENTIFY HQ • SAN FRANCISCO
+                </div>
+            </div>
+        </section>
+
+        <section style="max-width:760px;margin:auto">
+            <div class="text-center mb-4">
+                <div class="eyebrow">Need Help?</div>
+                <h2 class="section-title mt-2">Frequently Asked Questions</h2>
+                <p class="section-sub">
+                    Quick answers to common questions about ticketing, event hosting and account management.
+                </p>
+            </div>
+
+            <div class="accordion faq" id="faq">
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#f1">
+                            How do I get a refund for a cancelled event?
+                        </button>
+                    </h2>
+                    <div id="f1" class="accordion-collapse collapse" data-bs-parent="#faq">
+                        <div class="accordion-body small">
+                            Refund eligibility depends on the event organizer's policy. Contact support with your order ID for assistance.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#f2">
+                            Can I change the name on my ticket?
+                        </button>
+                    </h2>
+                    <div id="f2" class="accordion-collapse collapse" data-bs-parent="#faq">
+                        <div class="accordion-body small">
+                            Yes, where permitted by the organizer. Contact support before the event starts.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#f3">
+                            Where can I find my booking confirmation?
+                        </button>
+                    </h2>
+                    <div id="f3" class="accordion-collapse collapse" data-bs-parent="#faq">
+                        <div class="accordion-body small">
+                            Your confirmation is sent to the email address used during checkout and is also available in your dashboard.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#f4">
+                            Interested in hosting an event on Eventify?
+                        </button>
+                    </h2>
+                    <div id="f4" class="accordion-collapse collapse" data-bs-parent="#faq">
+                        <div class="accordion-body small">
+                            Create an account and contact our organizer team to start listing your event.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="text-center mt-5">
+                <h4>Still have questions?</h4>
+                <p class="small-note">Can't find what you're looking for?</p>
+                <button class="wire-btn" type="button" id="chatBtn">
+                    <i class="bi bi-chat-dots me-2"></i>Start a Live Chat
+                </button>
+            </div>
+        </section>
+
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-3">
+                <h6>Stay updated</h6>
+                <p>Subscribe to our newsletter to receive the latest event updates, tech workshops and wellness retreats directly to your inbox.</p>
+                <form id="newsletterForm" class="newsletter-form">
+                    <input id="newsletterEmail" required type="email" placeholder="Enter your email">
+                    <button class="wire-btn" type="submit">Subscribe</button>
+                </form>
+            </div>
+
+            <div class="col-lg-3">
+                <h6>Explore</h6>
+                <ul>
+                    <li><a href="explore.html?q=Music">Music Events</a></li>
+                    <li><a href="explore.html?q=Tech">Tech Workshops</a></li>
+                    <li><a href="explore.html?q=Wellness">Wellness Retreats</a></li>
+                    <li><a href="explore.html?q=Culinary">Culinary Experiences</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-3">
+                <h6>Support</h6>
+                <ul>
+                    <li><a href="contact.html">Help Center</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-3">
+                <h6>Reach Out</h6>
+                <p>⌖ 123 Event Street, City, State 12345<br>✉ support@eventify.com<br>☎ +1 (555) 012-3456</p>
+            </div>
+        </div>
+
+        <hr>
+        <div class="small-note">© 2026 Eventify. All rights reserved.</div>
+    </div>
+</footer>
+
+<div class="toast-msg border bg-dark text-white px-3 py-2 small" id="toastMsg"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/app.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const contactForm = document.getElementById("contactForm");
+    const newsletterForm = document.getElementById("newsletterForm");
+    const toast = document.getElementById("toastMsg");
+
+    function showToast(message) {
+        toast.textContent = message;
+        toast.style.display = "block";
+        clearTimeout(window.eventifyToastTimer);
+        window.eventifyToastTimer = setTimeout(() => {
+            toast.style.display = "none";
+        }, 3000);
+    }
+
+    contactForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const name = document.getElementById("contactName");
+        const email = document.getElementById("contactEmail");
+        const subject = document.getElementById("contactSubject");
+        const message = document.getElementById("contactMessage");
+
+        [name, email, subject, message].forEach(input => {
+            input.value = input.value.trim();
+            input.classList.remove("is-invalid");
+        });
+
+        let valid = true;
+
+        if (!name.checkValidity()) {
+            name.classList.add("is-invalid");
+            valid = false;
+        }
+
+        if (!email.checkValidity() || /\s/.test(email.value)) {
+            email.classList.add("is-invalid");
+            valid = false;
+        }
+
+        if (!subject.checkValidity()) {
+            subject.classList.add("is-invalid");
+            valid = false;
+        }
+
+        if (!message.checkValidity()) {
+            message.classList.add("is-invalid");
+            valid = false;
+        }
+
+        if (!valid) return;
+
+        const submissions = JSON.parse(localStorage.getItem("eventifyContactMessages") || "[]");
+
+        submissions.push({
+            name: name.value,
+            email: email.value,
+            subject: subject.value,
+            message: message.value,
+            submittedAt: new Date().toISOString()
+        });
+
+        localStorage.setItem("eventifyContactMessages", JSON.stringify(submissions));
+
+        contactForm.reset();
+        contactForm.classList.remove("was-validated");
+        showToast("Your message has been sent successfully!");
+    });
+
+    newsletterForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const email = document.getElementById("newsletterEmail");
+        email.value = email.value.trim();
+
+        if (!email.checkValidity() || /\s/.test(email.value)) {
+            email.classList.add("is-invalid");
+            return;
+        }
+
+        email.classList.remove("is-invalid");
+
+        const subscribers = JSON.parse(localStorage.getItem("eventifySubscribers") || "[]");
+
+        if (!subscribers.includes(email.value.toLowerCase())) {
+            subscribers.push(email.value.toLowerCase());
+            localStorage.setItem("eventifySubscribers", JSON.stringify(subscribers));
+        }
+
+        newsletterForm.reset();
+        showToast("Successfully subscribed to Eventify!");
+    });
+
+    document.getElementById("chatBtn").addEventListener("click", function () {
+        showToast("Live Chat is currently unavailable. Please send us a message.");
+    });
+});
+</script>
+
+</body>
+</html>

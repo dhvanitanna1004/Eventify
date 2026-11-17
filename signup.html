@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Eventify — Sign Up</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f8f8f6;
+            color: #111;
+        }
+
+        /* ================= HEADER ================= */
+
+        .auth-header {
+            height: 82px;
+            background: #fff;
+            border-bottom: 1px solid #e5e5e5;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .auth-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            text-decoration: none;
+            color: #111;
+
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .auth-logo i {
+            font-size: 30px;
+        }
+
+        .auth-logo:hover {
+            color: #111;
+        }
+
+        /* ================= PAGE ================= */
+
+        .auth-page {
+            min-height: calc(100vh - 82px);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 50px 20px;
+        }
+
+        .auth-box {
+            width: 100%;
+            max-width: 500px;
+
+            background: #fff;
+
+            border: 1px solid #dedede;
+            border-radius: 8px;
+
+            padding: 42px;
+        }
+
+        .auth-title {
+            text-align: center;
+            font-size: 30px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .auth-subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 15px;
+            margin-bottom: 30px;
+        }
+
+        /* ================= FORM ================= */
+
+        .form-label {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 7px;
+        }
+
+        .form-control {
+            height: 48px;
+
+            border: 1px solid #cfcfcf;
+            border-radius: 5px;
+
+            padding: 0 14px;
+
+            font-size: 15px;
+        }
+
+        .form-control:focus {
+            border-color: #111;
+            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-control.is-valid,
+        .was-validated .form-control:valid {
+            border-color: #198754;
+        }
+
+        .form-control.is-invalid,
+        .was-validated .form-control:invalid {
+            border-color: #dc3545;
+        }
+
+        .password-box {
+            position: relative;
+        }
+
+        .password-box .form-control {
+            padding-right: 48px;
+        }
+
+        .password-toggle {
+            position: absolute;
+
+            right: 14px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            border: none;
+            background: transparent;
+
+            color: #555;
+
+            font-size: 18px;
+
+            cursor: pointer;
+        }
+
+        .password-toggle:hover {
+            color: #111;
+        }
+
+        .invalid-feedback {
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .valid-feedback {
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        /* ================= PASSWORD RULES ================= */
+
+        .password-rules {
+            background: #f7f7f7;
+
+            border: 1px solid #e5e5e5;
+            border-radius: 5px;
+
+            padding: 12px 14px;
+
+            margin-top: 10px;
+
+            font-size: 12px;
+            color: #666;
+        }
+
+        .password-rules-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        .password-rule {
+            margin: 3px 0;
+        }
+
+        .password-rule i {
+            margin-right: 5px;
+        }
+
+        .rule-valid {
+            color: #198754;
+        }
+
+        .rule-invalid {
+            color: #dc3545;
+        }
+
+        /* ================= TERMS ================= */
+
+        .terms-box {
+            margin-top: 20px;
+        }
+
+        .form-check-input {
+            cursor: pointer;
+        }
+
+        .form-check-label {
+            font-size: 13px;
+            color: #555;
+            cursor: pointer;
+        }
+
+        .form-check-label a {
+            color: #111;
+            font-weight: 600;
+        }
+
+        /* ================= BUTTON ================= */
+
+        .auth-btn {
+            width: 100%;
+
+            height: 50px;
+
+            margin-top: 24px;
+
+            border: none;
+            border-radius: 5px;
+
+            background: #111;
+            color: #fff;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            letter-spacing: 0.5px;
+
+            transition: 0.2s;
+        }
+
+        .auth-btn:hover {
+            background: #333;
+        }
+
+        .auth-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        /* ================= BOTTOM ================= */
+
+        .auth-bottom {
+            text-align: center;
+
+            margin-top: 24px;
+
+            font-size: 14px;
+            color: #666;
+        }
+
+        .auth-bottom a {
+            color: #111;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .auth-bottom a:hover {
+            text-decoration: underline;
+        }
+
+        /* ================= ALERT ================= */
+
+        .custom-alert {
+            display: none;
+
+            padding: 12px 14px;
+
+            margin-bottom: 20px;
+
+            border-radius: 5px;
+
+            font-size: 14px;
+        }
+
+        .custom-alert.show {
+            display: block;
+        }
+
+        /* ================= FOOTER ================= */
+
+        .auth-footer {
+            text-align: center;
+
+            margin-top: 30px;
+
+            color: #888;
+            font-size: 12px;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 576px) {
+
+            .auth-header {
+                height: 72px;
+            }
+
+            .auth-logo {
+                font-size: 25px;
+            }
+
+            .auth-logo i {
+                font-size: 27px;
+            }
+
+            .auth-page {
+                padding: 25px 15px;
+            }
+
+            .auth-box {
+                padding: 28px 22px;
+            }
+
+            .auth-title {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= LOGO ONLY HEADER ================= -->
+
+<header class="auth-header">
+    <a href="index.html" class="auth-logo">
+        <i class="bi bi-calendar-event"></i>
+        <span>Eventify</span>
+    </a>
+</header>
+
+
+<!-- ================= SIGNUP ================= -->
+
+<main class="auth-page">
+
+    <div class="auth-box">
+
+        <h1 class="auth-title">
+            Create your account
+        </h1>
+
+        <p class="auth-subtitle">
+            Join Eventify and discover amazing events around you.
+        </p>
+
+
+        <!-- Alert -->
+
+        <div id="signupAlert" class="custom-alert alert alert-danger">
+            <i class="bi bi-exclamation-circle me-1"></i>
+            <span id="signupAlertText"></span>
+        </div>
+
+
+        <form id="signupForm" novalidate>
+
+            <!-- NAME -->
+
+            <div class="mb-3">
+
+                <label for="fullName" class="form-label">
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    id="fullName"
+                    name="fullName"
+                    placeholder="Enter your full name"
+                    minlength="2"
+                    maxlength="50"
+                    pattern="[A-Za-z]+([ '-][A-Za-z]+)*"
+                    autocomplete="name"
+                    required
+                >
+
+                <div class="invalid-feedback">
+                    Please enter a valid name (2–50 letters only).
+                </div>
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="mb-3">
+
+                <label for="email" class="form-label">
+                    Email Address
+                </label>
+
+                <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    maxlength="100"
+                    autocomplete="email"
+                    required
+                >
+
+                <div class="invalid-feedback">
+                    Please enter a valid email address.
+                </div>
+
+            </div>
+
+
+            <!-- CITY -->
+
+            <div class="mb-3">
+
+                <label for="city" class="form-label">
+                    City
+                </label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    id="city"
+                    name="city"
+                    placeholder="Enter your city"
+                    minlength="2"
+                    maxlength="50"
+                    pattern="[A-Za-z]+([ '-][A-Za-z]+)*"
+                    autocomplete="address-level2"
+                    required
+                >
+
+                <div class="invalid-feedback">
+                    Please enter a valid city name.
+                </div>
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="mb-3">
+
+                <label for="password" class="form-label">
+                    Password
+                </label>
+
+                <div class="password-box">
+
+                    <input
+                        type="password"
+                        class="form-control"
+                        id="password"
+                        name="password"
+                        placeholder="Create a strong password"
+                        minlength="8"
+                        maxlength="50"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        id="togglePassword"
+                        aria-label="Show password"
+                    >
+                        <i class="bi bi-eye"></i>
+                    </button>
+
+                </div>
+
+                <div class="invalid-feedback d-block" id="passwordError" style="display:none !important;">
+                    Password must satisfy all requirements.
+                </div>
+
+
+                <div class="password-rules">
+
+                    <div class="password-rules-title">
+                        Password must contain:
+                    </div>
+
+                    <div class="password-rule rule-invalid" id="ruleLength">
+                        <i class="bi bi-x-circle"></i>
+                        8–50 characters
+                    </div>
+
+                    <div class="password-rule rule-invalid" id="ruleUpper">
+                        <i class="bi bi-x-circle"></i>
+                        One uppercase letter
+                    </div>
+
+                    <div class="password-rule rule-invalid" id="ruleLower">
+                        <i class="bi bi-x-circle"></i>
+                        One lowercase letter
+                    </div>
+
+                    <div class="password-rule rule-invalid" id="ruleNumber">
+                        <i class="bi bi-x-circle"></i>
+                        One number
+                    </div>
+
+                    <div class="password-rule rule-invalid" id="ruleSpecial">
+                        <i class="bi bi-x-circle"></i>
+                        One special character
+                    </div>
+
+                    <div class="password-rule rule-invalid" id="ruleSpace">
+                        <i class="bi bi-x-circle"></i>
+                        No spaces
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CONFIRM PASSWORD -->
+
+            <div class="mb-3">
+
+                <label for="confirmPassword" class="form-label">
+                    Confirm Password
+                </label>
+
+                <div class="password-box">
+
+                    <input
+                        type="password"
+                        class="form-control"
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        placeholder="Re-enter your password"
+                        maxlength="50"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        id="toggleConfirmPassword"
+                        aria-label="Show password"
+                    >
+                        <i class="bi bi-eye"></i>
+                    </button>
+
+                </div>
+
+                <div class="invalid-feedback">
+                    Passwords do not match.
+                </div>
+
+            </div>
+
+
+            <!-- TERMS -->
+
+            <div class="terms-box">
+
+                <div class="form-check">
+
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="terms"
+                        required
+                    >
+
+                    <label class="form-check-label" for="terms">
+                        I agree to the
+                        <a href="#" onclick="return false;">Terms & Conditions</a>
+                        and
+                        <a href="#" onclick="return false;">Privacy Policy</a>.
+                    </label>
+
+                    <div class="invalid-feedback">
+                        You must agree before creating your account.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- BUTTON -->
+
+            <button
+                type="submit"
+                class="auth-btn"
+                id="signupBtn"
+            >
+                CREATE ACCOUNT
+                <i class="bi bi-arrow-right ms-1"></i>
+            </button>
+
+        </form>
+
+
+        <!-- LOGIN -->
+
+        <div class="auth-bottom">
+            Already have an account?
+            <a href="login.html">Log in</a>
+        </div>
+
+
+        <div class="auth-footer">
+            © 2026 Eventify. All rights reserved.
+        </div>
+
+    </div>
+
+</main>
+
+
+<script>
+
+    /* ================= ELEMENTS ================= */
+
+    const signupForm = document.getElementById("signupForm");
+
+    const fullName = document.getElementById("fullName");
+    const email = document.getElementById("email");
+    const city = document.getElementById("city");
+
+    const password = document.getElementById("password");
+    const confirmPassword = document.getElementById("confirmPassword");
+
+    const terms = document.getElementById("terms");
+
+    const signupBtn = document.getElementById("signupBtn");
+
+    const signupAlert = document.getElementById("signupAlert");
+    const signupAlertText = document.getElementById("signupAlertText");
+
+
+    /* ================= ALERT ================= */
+
+    function showAlert(message, type = "danger") {
+
+        signupAlert.className = "custom-alert alert alert-" + type + " show";
+
+        signupAlertText.textContent = message;
+
+    }
+
+
+    function hideAlert() {
+
+        signupAlert.classList.remove("show");
+
+    }
+
+
+    /* ================= PASSWORD TOGGLE ================= */
+
+    function setupPasswordToggle(input, button) {
+
+        button.addEventListener("click", function () {
+
+            if (input.type === "password") {
+
+                input.type = "text";
+
+                button.innerHTML = '<i class="bi bi-eye-slash"></i>';
+
+            } else {
+
+                input.type = "password";
+
+                button.innerHTML = '<i class="bi bi-eye"></i>';
+
+            }
+
+        });
+
+    }
+
+
+    setupPasswordToggle(
+        password,
+        document.getElementById("togglePassword")
+    );
+
+
+    setupPasswordToggle(
+        confirmPassword,
+        document.getElementById("toggleConfirmPassword")
+    );
+
+
+    /* ================= PASSWORD RULES ================= */
+
+    function updatePasswordRules() {
+
+        const value = password.value;
+
+        const length = value.length >= 8 && value.length <= 50;
+        const upper = /[A-Z]/.test(value);
+        const lower = /[a-z]/.test(value);
+        const number = /[0-9]/.test(value);
+        const special = /[^A-Za-z0-9\s]/.test(value);
+        const noSpace = !/\s/.test(value);
+
+
+        updateRule("ruleLength", length);
+        updateRule("ruleUpper", upper);
+        updateRule("ruleLower", lower);
+        updateRule("ruleNumber", number);
+        updateRule("ruleSpecial", special);
+        updateRule("ruleSpace", noSpace);
+
+
+        return (
+            length &&
+            upper &&
+            lower &&
+            number &&
+            special &&
+            noSpace
+        );
+    }
+
+
+    function updateRule(id, valid) {
+
+        const rule = document.getElementById(id);
+        const icon = rule.querySelector("i");
+
+        if (valid) {
+
+            rule.classList.remove("rule-invalid");
+            rule.classList.add("rule-valid");
+
+            icon.className = "bi bi-check-circle";
+
+        } else {
+
+            rule.classList.remove("rule-valid");
+            rule.classList.add("rule-invalid");
+
+            icon.className = "bi bi-x-circle";
+
+        }
+
+    }
+
+
+    password.addEventListener("input", function () {
+
+        updatePasswordRules();
+
+        if (confirmPassword.value !== "") {
+            validateConfirmPassword();
+        }
+
+    });
+
+
+    /* ================= CONFIRM PASSWORD ================= */
+
+    function validateConfirmPassword() {
+
+        if (
+            confirmPassword.value !== "" &&
+            confirmPassword.value === password.value
+        ) {
+
+            confirmPassword.setCustomValidity("");
+
+            return true;
+
+        } else {
+
+            confirmPassword.setCustomValidity("Passwords do not match.");
+
+            return false;
+
+        }
+
+    }
+
+
+    confirmPassword.addEventListener(
+        "input",
+        validateConfirmPassword
+    );
+
+
+    /* ================= NAME VALIDATION ================= */
+
+    fullName.addEventListener("input", function () {
+
+        this.value = this.value.replace(
+            /[^A-Za-z '\-]/g,
+            ""
+        );
+
+    });
+
+
+    /* ================= CITY VALIDATION ================= */
+
+    city.addEventListener("input", function () {
+
+        this.value = this.value.replace(
+            /[^A-Za-z '\-]/g,
+            ""
+        );
+
+    });
+
+
+    /* ================= EMAIL ================= */
+
+    email.addEventListener("input", function () {
+
+        this.value = this.value.replace(/\s/g, "");
+
+    });
+
+
+    /* ================= SUBMIT ================= */
+
+    signupForm.addEventListener("submit", function (event) {
+
+        event.preventDefault();
+
+        hideAlert();
+
+
+        /* Trim text fields */
+
+        fullName.value = fullName.value.trim();
+        email.value = email.value.trim().toLowerCase();
+        city.value = city.value.trim();
+
+
+        /* Password validation */
+
+        const strongPassword = updatePasswordRules();
+
+        if (!strongPassword) {
+
+            event.stopPropagation();
+
+            signupForm.classList.add("was-validated");
+
+            password.classList.add("is-invalid");
+
+            showAlert(
+                "Please create a strong password that satisfies all requirements."
+            );
+
+            password.focus();
+
+            return;
+
+        } else {
+
+            password.classList.remove("is-invalid");
+
+        }
+
+
+        /* Confirm password */
+
+        const passwordsMatch = validateConfirmPassword();
+
+        if (!passwordsMatch) {
+
+            event.stopPropagation();
+
+            signupForm.classList.add("was-validated");
+
+            confirmPassword.classList.add("is-invalid");
+
+            showAlert("Passwords do not match.");
+
+            confirmPassword.focus();
+
+            return;
+
+        } else {
+
+            confirmPassword.classList.remove("is-invalid");
+
+        }
+
+
+        /* Bootstrap validation */
+
+        if (!signupForm.checkValidity()) {
+
+            event.stopPropagation();
+
+            signupForm.classList.add("was-validated");
+
+            showAlert(
+                "Please correct the highlighted fields."
+            );
+
+            return;
+
+        }
+
+
+        /* ================= DUPLICATE ACCOUNT ================= */
+
+        const existingUser =
+            localStorage.getItem("eventifyUser");
+
+
+        if (existingUser) {
+
+            try {
+
+                const savedUser =
+                    JSON.parse(existingUser);
+
+                if (
+                    savedUser.email &&
+                    savedUser.email.toLowerCase() ===
+                    email.value.toLowerCase()
+                ) {
+
+                    showAlert(
+                        "An account with this email already exists. Please log in."
+                    );
+
+                    email.classList.add("is-invalid");
+
+                    email.focus();
+
+                    return;
+
+                }
+
+            } catch (error) {
+
+                console.log(
+                    "Invalid stored user data."
+                );
+
+            }
+
+        }
+
+
+        /* ================= SAVE ACCOUNT ================= */
+
+        const user = {
+
+            name: fullName.value,
+
+            email: email.value,
+
+            city: city.value,
+
+            password: password.value,
+
+            memberSince:
+                new Date().toLocaleString(
+                    "en-US",
+                    {
+                        month: "long",
+                        year: "numeric"
+                    }
+                )
+
+        };
+
+
+        localStorage.setItem(
+            "eventifyUser",
+            JSON.stringify(user)
+        );
+
+        localStorage.setItem(
+            "eventifyLoggedIn",
+            "false"
+        );
+
+
+        /* Button */
+
+        signupBtn.disabled = true;
+
+        signupBtn.innerHTML =
+            'ACCOUNT CREATED <i class="bi bi-check-circle ms-1"></i>';
+
+
+        showAlert(
+            "Account created successfully! Redirecting to login...",
+            "success"
+        );
+
+
+        /* Redirect */
+
+        setTimeout(function () {
+
+            window.location.href = "login.html";
+
+        }, 1000);
+
+    });
+
+</script>
+
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+</body>
+</html>

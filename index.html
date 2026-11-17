@@ -1,0 +1,2412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Eventify - Discover Amazing Events</title>
+
+    <!-- Bootstrap 5.3 -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <style>
+
+        /* ==============================
+           GLOBAL
+        ============================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #111;
+            background: #fff;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .section-padding {
+            padding: 75px 0;
+        }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .section-subtitle {
+            color: #777;
+            margin-bottom: 40px;
+        }
+
+
+        /* ==============================
+           NAVBAR
+        ============================== */
+
+        .site-header {
+            height: 72px;
+            background: #fff;
+            border-bottom: 1px solid #e8e8e8;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .brand {
+            font-size: 25px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .brand i {
+            margin-right: 5px;
+        }
+
+        .nav-link {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333 !important;
+        }
+
+        .nav-link:hover {
+            color: #000 !important;
+        }
+
+        .header-search {
+            width: 210px;
+            border: 0;
+            border-bottom: 1px solid #ccc;
+            outline: none;
+            padding: 8px 5px;
+            font-size: 14px;
+        }
+
+        .header-search:focus {
+            border-bottom-color: #111;
+        }
+
+        .header-action {
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .header-icon {
+            font-size: 20px;
+        }
+
+
+        /* ==============================
+           HERO
+        ============================== */
+
+        .hero {
+            min-height: 560px;
+            background:
+                linear-gradient(
+                    rgba(0, 0, 0, .60),
+                    rgba(0, 0, 0, .60)
+                ),
+                url("assets/images/hero.jpg") center/cover no-repeat;
+
+            display: flex;
+            align-items: center;
+            color: white;
+        }
+
+        .hero-content {
+            max-width: 850px;
+        }
+
+        .hero-title {
+            font-size: clamp(40px, 6vw, 72px);
+            font-weight: 800;
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        .hero-text {
+            font-size: 19px;
+            color: #eee;
+            max-width: 650px;
+            margin-bottom: 35px;
+        }
+
+        .search-box {
+            background: #fff;
+            padding: 8px;
+            border-radius: 8px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, .20);
+        }
+
+        .search-input {
+            border: 0 !important;
+            box-shadow: none !important;
+            height: 52px;
+        }
+
+        .search-location {
+            border: 0 !important;
+            box-shadow: none !important;
+            height: 52px;
+        }
+
+        .search-btn {
+            height: 52px;
+            background: #111;
+            color: #fff;
+            border: 0;
+            padding: 0 30px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .search-btn:hover {
+            background: #333;
+            color: #fff;
+        }
+
+
+        /* ==============================
+           EVENT CARDS
+        ============================== */
+
+        .event-card {
+            overflow: hidden;
+            border-radius: 8px;
+            transition: .25s ease;
+            height: 100%;
+        }
+
+        .event-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .12);
+        }
+
+        .event-image {
+            position: relative;
+            width: 100%;
+            height: 225px;
+            overflow: hidden;
+            background: #eee;
+        }
+
+        .event-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform .4s ease;
+        }
+
+        .event-card:hover .event-image img {
+            transform: scale(1.06);
+        }
+
+        .event-category {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: #fff;
+            color: #111;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .5px;
+        }
+
+        .favorite-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            transition: .2s ease;
+        }
+
+        .favorite-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .favorite-btn.active {
+            background: #111;
+            color: #fff;
+        }
+
+        .event-title {
+            font-size: 19px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .event-info {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.9;
+        }
+
+        .event-info i {
+            margin-right: 6px;
+            color: #222;
+        }
+
+        .event-price {
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+
+        /* ==============================
+           CATEGORY
+        ============================== */
+
+        .category-card {
+            border: 1px solid #e5e5e5;
+            background: #fff;
+            padding: 30px 15px;
+            text-align: center;
+            border-radius: 8px;
+            transition: .25s ease;
+            text-decoration: none;
+            display: block;
+        }
+
+        .category-card:hover {
+            background: #111;
+            color: #fff;
+            transform: translateY(-5px);
+        }
+
+        .category-icon {
+            font-size: 35px;
+            margin-bottom: 15px;
+        }
+
+        .category-name {
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+
+        /* ==============================
+           SCHEDULE
+        ============================== */
+
+        .schedule-section {
+            background: #f7f7f7;
+        }
+
+        .schedule-table {
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .schedule-table th {
+            background: #111;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 16px;
+        }
+
+        .schedule-table td {
+            padding: 17px 16px;
+            vertical-align: middle;
+            font-size: 14px;
+        }
+
+        .schedule-table tr:last-child td {
+            border-bottom: 0;
+        }
+
+
+        /* ==============================
+           ORGANIZER
+        ============================== */
+
+        .organizer-section {
+            background: #111;
+            color: #fff;
+        }
+
+        .organizer-section p {
+            color: #bbb;
+        }
+
+        .btn-white {
+            background: #fff;
+            color: #111;
+            border: none;
+            padding: 12px 25px;
+            font-weight: 600;
+            border-radius: 5px;
+        }
+
+        .btn-white:hover {
+            background: #ddd;
+            color: #111;
+        }
+
+
+        /* ==============================
+           HOW IT WORKS
+        ============================== */
+
+        .step-number {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: #111;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .step-title {
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .step-text {
+            color: #777;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+
+        /* ==============================
+           NEWSLETTER
+        ============================== */
+
+        .newsletter {
+            background: #f5f5f5;
+        }
+
+        .newsletter-form {
+            max-width: 550px;
+            margin: auto;
+        }
+
+
+        /* ==============================
+           FOOTER
+        ============================== */
+
+        footer {
+            background: #111;
+            color: #fff;
+            padding: 60px 0 25px;
+        }
+
+        .footer-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        .footer-link {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 14px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .footer-link:hover {
+            color: #fff;
+        }
+
+        .social-icon {
+            width: 38px;
+            height: 38px;
+            border: 1px solid #555;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-right: 6px;
+            color: #fff;
+            text-decoration: none;
+            transition: .2s;
+        }
+
+        .social-icon:hover {
+            background: #fff;
+            color: #111;
+        }
+
+        .copyright {
+            border-top: 1px solid #333;
+            margin-top: 45px;
+            padding-top: 20px;
+            color: #888;
+            font-size: 13px;
+        }
+
+
+        /* ==============================
+           TOAST
+        ============================== */
+
+        .eventify-toast {
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+            background: #111;
+            color: #fff;
+            padding: 14px 20px;
+            border-radius: 6px;
+            z-index: 9999;
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+            transition: .3s ease;
+        }
+
+        .eventify-toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        /* ==============================
+           RESPONSIVE
+        ============================== */
+
+        @media (max-width: 991px) {
+
+            .site-header {
+                height: auto;
+                min-height: 70px;
+            }
+
+            .hero {
+                min-height: 600px;
+            }
+
+            .header-search {
+                width: 150px;
+            }
+
+        }
+
+        @media (max-width: 767px) {
+
+            .section-padding {
+                padding: 55px 0;
+            }
+
+            .hero {
+                min-height: 650px;
+            }
+
+            .hero-title {
+                font-size: 43px;
+            }
+
+            .hero-text {
+                font-size: 16px;
+            }
+
+            .search-box {
+                padding: 10px;
+            }
+
+            .search-btn {
+                width: 100%;
+            }
+
+            .event-image {
+                height: 210px;
+            }
+
+            .schedule-table {
+                min-width: 700px;
+            }
+
+            .schedule-wrapper {
+                overflow-x: auto;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="site-header">
+
+    <div class="container-fluid px-4">
+
+        <div class="d-flex align-items-center gap-4 py-3">
+
+            <!-- LOGO -->
+            <a href="index.html" class="brand text-decoration-none">
+                <i class="bi bi-calendar-event"></i>
+                Eventify
+            </a>
+
+
+            <!-- DESKTOP NAV -->
+            <nav class="d-none d-lg-flex gap-3">
+
+                <a href="explore.html" class="nav-link">
+                    Discover
+                </a>
+
+                <a href="explore.html?q=Music" class="nav-link">
+                    Music
+                </a>
+
+                <a href="explore.html?q=Tech" class="nav-link">
+                    Tech
+                </a>
+
+                <a href="explore.html?q=Wellness" class="nav-link">
+                    Wellness
+                </a>
+
+                <a href="explore.html?q=Culinary" class="nav-link">
+                    Culinary
+                </a>
+
+            </nav>
+
+
+            <!-- RIGHT SIDE -->
+            <div class="ms-auto d-flex align-items-center gap-3">
+
+                <!-- SEARCH -->
+                <div class="d-none d-md-flex align-items-center">
+
+                    <i class="bi bi-search me-2"></i>
+
+                    <input
+                        type="text"
+                        id="headerSearch"
+                        class="header-search"
+                        placeholder="Search events..."
+                        aria-label="Search events"
+                    >
+
+                </div>
+
+
+                <!-- FAVORITES -->
+                <a
+                    href="favorites.html"
+                    class="header-action"
+                    title="Favorites"
+                >
+                    <i class="bi bi-heart header-icon"></i>
+                </a>
+
+
+                <!-- ORGANIZER -->
+                <a
+                    href="signup.html"
+                    class="header-action"
+                    title="Become an organizer"
+                >
+                    <i class="bi bi-person-plus header-icon"></i>
+                </a>
+
+
+                <span class="d-none d-md-inline">|</span>
+
+
+                <a href="login.html" class="header-action">
+                    Log in
+                </a>
+
+                <a href="signup.html" class="header-action">
+                    Sign up
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="hero">
+
+    <div class="container">
+
+        <div class="hero-content">
+
+            <div class="mb-3">
+                <span class="badge bg-white text-dark px-3 py-2">
+                    <i class="bi bi-stars me-1"></i>
+                    Discover what's happening
+                </span>
+            </div>
+
+            <h1 class="hero-title">
+                Find Your Next<br>
+                Unforgettable Event.
+            </h1>
+
+            <p class="hero-text">
+                Discover concerts, conferences, workshops, festivals,
+                wellness experiences and more happening around you.
+            </p>
+
+
+            <!-- SEARCH -->
+            <form
+                id="homeSearchForm"
+                class="search-box"
+                novalidate
+            >
+
+                <div class="row g-2 align-items-center">
+
+                    <!-- EVENT SEARCH -->
+                    <div class="col-lg-5">
+
+                        <div class="input-group">
+
+                            <span class="input-group-text bg-white border-0">
+                                <i class="bi bi-search"></i>
+                            </span>
+
+                            <input
+                                type="text"
+                                id="homeQuery"
+                                class="form-control search-input"
+                                placeholder="Search events..."
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- LOCATION -->
+                    <div class="col-lg-4">
+
+                        <div class="input-group">
+
+                            <span class="input-group-text bg-white border-0">
+                                <i class="bi bi-geo-alt"></i>
+                            </span>
+
+                            <select
+                                id="homeLocation"
+                                class="form-select search-location"
+                            >
+
+                                <option value="">
+                                    All locations
+                                </option>
+
+                                <option value="Ahmedabad">
+                                    Ahmedabad
+                                </option>
+
+                                <option value="Jamnagar">
+                                    Jamnagar
+                                </option>
+
+                                <option value="Rajkot">
+                                    Rajkot
+                                </option>
+
+                                <option value="Vadodara">
+                                    Vadodara
+                                </option>
+
+                                <option value="Surat">
+                                    Surat
+                                </option>
+
+                                <option value="Mumbai">
+                                    Mumbai
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- BUTTON -->
+                    <div class="col-lg-3">
+
+                        <button
+                            type="submit"
+                            class="search-btn w-100"
+                        >
+                            <i class="bi bi-search me-2"></i>
+                            Search Events
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     FEATURED EVENTS
+========================================================= -->
+
+<section class="section-padding">
+
+    <div class="container">
+
+        <div class="d-flex justify-content-between align-items-end mb-4">
+
+            <div>
+
+                <h2 class="section-title">
+                    Featured Events
+                </h2>
+
+                <p class="section-subtitle mb-0">
+                    Handpicked experiences you won't want to miss.
+                </p>
+
+            </div>
+
+            <a
+                href="explore.html"
+                class="btn btn-outline-dark d-none d-md-inline-block"
+            >
+                View All
+                <i class="bi bi-arrow-right ms-1"></i>
+            </a>
+
+        </div>
+
+
+        <div class="row g-4">
+
+
+            <!-- EVENT 1 -->
+            <div class="col-lg-4 col-md-6">
+
+                <div class="event-card border bg-white">
+
+                    <div class="event-image">
+
+                        <img
+                            src="assets/images/jazz.jpg"
+                            alt="Live music concert"
+                            loading="lazy"
+                        >
+
+                        <span class="event-category">
+                            <i class="bi bi-music-note-beamed"></i>
+                            MUSIC
+                        </span>
+
+                        <button
+                            type="button"
+                            class="favorite-btn"
+                            onclick="toggleFavorite('EVT-001', this)"
+                            aria-label="Add event to favorites"
+                        >
+                            <i class="bi bi-heart"></i>
+                        </button>
+
+                    </div>
+
+
+                    <div class="p-3">
+
+                        <h3 class="event-title">
+                            Jazz Under The Stars
+                        </h3>
+
+                        <div class="event-info">
+
+                            <div>
+                                <i class="bi bi-calendar3"></i>
+                                18 September 2026
+                            </div>
+
+                            <div>
+                                <i class="bi bi-clock"></i>
+                                7:30 PM - 10:30 PM
+                            </div>
+
+                            <div>
+                                <i class="bi bi-geo-alt"></i>
+                                Ahmedabad, Gujarat
+                            </div>
+
+                        </div>
+
+                        <div class="event-price">
+                            ₹799 onwards
+                        </div>
+
+                        <button
+                            class="btn btn-dark w-100 mt-3"
+                            onclick="openEvent('EVT-001')"
+                        >
+                            View Details
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- EVENT 2 -->
+            <div class="col-lg-4 col-md-6">
+
+                <div class="event-card border bg-white">
+
+                    <div class="event-image">
+
+                        <img
+                            src="assets/images/tech.jpg"
+                            alt="Technology conference"
+                            loading="lazy"
+                        >
+
+                        <span class="event-category">
+                            <i class="bi bi-cpu"></i>
+                            TECH
+                        </span>
+
+                        <button
+                            type="button"
+                            class="favorite-btn"
+                            onclick="toggleFavorite('EVT-002', this)"
+                            aria-label="Add event to favorites"
+                        >
+                            <i class="bi bi-heart"></i>
+                        </button>
+
+                    </div>
+
+
+                    <div class="p-3">
+
+                        <h3 class="event-title">
+                            Future Tech Conference
+                        </h3>
+
+                        <div class="event-info">
+
+                            <div>
+                                <i class="bi bi-calendar3"></i>
+                                24 September 2026
+                            </div>
+
+                            <div>
+                                <i class="bi bi-clock"></i>
+                                10:00 AM - 5:00 PM
+                            </div>
+
+                            <div>
+                                <i class="bi bi-geo-alt"></i>
+                                Mumbai, Maharashtra
+                            </div>
+
+                        </div>
+
+                        <div class="event-price">
+                            ₹1,499 onwards
+                        </div>
+
+                        <button
+                            class="btn btn-dark w-100 mt-3"
+                            onclick="openEvent('EVT-002')"
+                        >
+                            View Details
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- EVENT 3 -->
+            <div class="col-lg-4 col-md-6">
+
+                <div class="event-card border bg-white">
+
+                    <div class="event-image">
+
+                        <img
+                            src="assets/images/wellness.jpg"
+                            alt="Yoga wellness event"
+                            loading="lazy"
+                        >
+
+                        <span class="event-category">
+                            <i class="bi bi-heart-pulse"></i>
+                            WELLNESS
+                        </span>
+
+                        <button
+                            type="button"
+                            class="favorite-btn"
+                            onclick="toggleFavorite('EVT-003', this)"
+                            aria-label="Add event to favorites"
+                        >
+                            <i class="bi bi-heart"></i>
+                        </button>
+
+                    </div>
+
+
+                    <div class="p-3">
+
+                        <h3 class="event-title">
+                            Mind & Body Retreat
+                        </h3>
+
+                        <div class="event-info">
+
+                            <div>
+                                <i class="bi bi-calendar3"></i>
+                                27 September 2026
+                            </div>
+
+                            <div>
+                                <i class="bi bi-clock"></i>
+                                8:00 AM - 4:00 PM
+                            </div>
+
+                            <div>
+                                <i class="bi bi-geo-alt"></i>
+                                Vadodara, Gujarat
+                            </div>
+
+                        </div>
+
+                        <div class="event-price">
+                            ₹999 onwards
+                        </div>
+
+                        <button
+                            class="btn btn-dark w-100 mt-3"
+                            onclick="openEvent('EVT-003')"
+                        >
+                            View Details
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- EVENT 4 -->
+            <div class="col-lg-4 col-md-6">
+
+                <div class="event-card border bg-white">
+
+                    <div class="event-image">
+
+                        <img
+                            src="assets/images/culinary.jpg"
+                            alt="Food and culinary event"
+                            loading="lazy"
+                        >
+
+                        <span class="event-category">
+                            <i class="bi bi-egg-fried"></i>
+                            CULINARY
+                        </span>
+
+                        <button
+                            type="button"
+                            class="favorite-btn"
+                            onclick="toggleFavorite('EVT-004', this)"
+                            aria-label="Add event to favorites"
+                        >
+                            <i class="bi bi-heart"></i>
+                        </button>
+
+                    </div>
+
+
+                    <div class="p-3">
+
+                        <h3 class="event-title">
+                            Taste of Gujarat
+                        </h3>
+
+                        <div class="event-info">
+
+                            <div>
+                                <i class="bi bi-calendar3"></i>
+                                3 October 2026
+                            </div>
+
+                            <div>
+                                <i class="bi bi-clock"></i>
+                                5:00 PM - 9:00 PM
+                            </div>
+
+                            <div>
+                                <i class="bi bi-geo-alt"></i>
+                                Rajkot, Gujarat
+                            </div>
+
+                        </div>
+
+                        <div class="event-price">
+                            ₹499 onwards
+                        </div>
+
+                        <button
+                            class="btn btn-dark w-100 mt-3"
+                            onclick="openEvent('EVT-004')"
+                        >
+                            View Details
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- EVENT 5 -->
+            <div class="col-lg-4 col-md-6">
+
+                <div class="event-card border bg-white">
+
+                    <div class="event-image">
+
+                        <img
+                            src="assets/images/gaming.jpg"
+                            alt="Gaming convention"
+                            loading="lazy"
+                        >
+
+                        <span class="event-category">
+                            <i class="bi bi-controller"></i>
+                            GAMING
+                        </span>
+
+                        <button
+                            type="button"
+                            class="favorite-btn"
+                            onclick="toggleFavorite('EVT-005', this)"
+                            aria-label="Add event to favorites"
+                        >
+                            <i class="bi bi-heart"></i>
+                        </button>
+
+                    </div>
+
+
+                    <div class="p-3">
+
+                        <h3 class="event-title">
+                            Gaming & Esports Fest
+                        </h3>
+
+                        <div class="event-info">
+
+                            <div>
+                                <i class="bi bi-calendar3"></i>
+                                10 October 2026
+                            </div>
+
+                            <div>
+                                <i class="bi bi-clock"></i>
+                                11:00 AM - 8:00 PM
+                            </div>
+
+                            <div>
+                                <i class="bi bi-geo-alt"></i>
+                                Surat, Gujarat
+                            </div>
+
+                        </div>
+
+                        <div class="event-price">
+                            ₹699 onwards
+                        </div>
+
+                        <button
+                            class="btn btn-dark w-100 mt-3"
+                            onclick="openEvent('EVT-005')"
+                        >
+                            View Details
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- EVENT 6 -->
+            <div class="col-lg-4 col-md-6">
+
+                <div class="event-card border bg-white">
+
+                    <div class="event-image">
+
+                        <img
+                            src="assets/images/concert.jpg"
+                            alt="Live concert"
+                            loading="lazy"
+                        >
+
+                        <span class="event-category">
+                            <i class="bi bi-mic"></i>
+                            CONCERT
+                        </span>
+
+                        <button
+                            type="button"
+                            class="favorite-btn"
+                            onclick="toggleFavorite('EVT-006', this)"
+                            aria-label="Add event to favorites"
+                        >
+                            <i class="bi bi-heart"></i>
+                        </button>
+
+                    </div>
+
+
+                    <div class="p-3">
+
+                        <h3 class="event-title">
+                            Live Music Festival
+                        </h3>
+
+                        <div class="event-info">
+
+                            <div>
+                                <i class="bi bi-calendar3"></i>
+                                17 October 2026
+                            </div>
+
+                            <div>
+                                <i class="bi bi-clock"></i>
+                                6:00 PM - 11:00 PM
+                            </div>
+
+                            <div>
+                                <i class="bi bi-geo-alt"></i>
+                                Ahmedabad, Gujarat
+                            </div>
+
+                        </div>
+
+                        <div class="event-price">
+                            ₹1,199 onwards
+                        </div>
+
+                        <button
+                            class="btn btn-dark w-100 mt-3"
+                            onclick="openEvent('EVT-006')"
+                        >
+                            View Details
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="text-center mt-5 d-md-none">
+
+            <a
+                href="explore.html"
+                class="btn btn-dark px-4"
+            >
+                View All Events
+                <i class="bi bi-arrow-right ms-1"></i>
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     CATEGORIES
+========================================================= -->
+
+<section class="section-padding bg-light">
+
+    <div class="container">
+
+        <div class="text-center">
+
+            <h2 class="section-title">
+                Explore Categories
+            </h2>
+
+            <p class="section-subtitle">
+                Find experiences that match your interests.
+            </p>
+
+        </div>
+
+
+        <div class="row g-3">
+
+
+            <div class="col-6 col-md-4 col-lg-2">
+
+                <a
+                    href="explore.html?q=Music"
+                    class="category-card"
+                >
+
+                    <div class="category-icon">
+                        <i class="bi bi-music-note-beamed"></i>
+                    </div>
+
+                    <div class="category-name">
+                        Music
+                    </div>
+
+                </a>
+
+            </div>
+
+
+            <div class="col-6 col-md-4 col-lg-2">
+
+                <a
+                    href="explore.html?q=Tech"
+                    class="category-card"
+                >
+
+                    <div class="category-icon">
+                        <i class="bi bi-laptop"></i>
+                    </div>
+
+                    <div class="category-name">
+                        Technology
+                    </div>
+
+                </a>
+
+            </div>
+
+
+            <div class="col-6 col-md-4 col-lg-2">
+
+                <a
+                    href="explore.html?q=Wellness"
+                    class="category-card"
+                >
+
+                    <div class="category-icon">
+                        <i class="bi bi-heart-pulse"></i>
+                    </div>
+
+                    <div class="category-name">
+                        Wellness
+                    </div>
+
+                </a>
+
+            </div>
+
+
+            <div class="col-6 col-md-4 col-lg-2">
+
+                <a
+                    href="explore.html?q=Culinary"
+                    class="category-card"
+                >
+
+                    <div class="category-icon">
+                        <i class="bi bi-egg-fried"></i>
+                    </div>
+
+                    <div class="category-name">
+                        Culinary
+                    </div>
+
+                </a>
+
+            </div>
+
+
+            <div class="col-6 col-md-4 col-lg-2">
+
+                <a
+                    href="explore.html?q=Gaming"
+                    class="category-card"
+                >
+
+                    <div class="category-icon">
+                        <i class="bi bi-controller"></i>
+                    </div>
+
+                    <div class="category-name">
+                        Gaming
+                    </div>
+
+                </a>
+
+            </div>
+
+
+            <div class="col-6 col-md-4 col-lg-2">
+
+                <a
+                    href="explore.html?q=Arts"
+                    class="category-card"
+                >
+
+                    <div class="category-icon">
+                        <i class="bi bi-palette"></i>
+                    </div>
+
+                    <div class="category-name">
+                        Arts
+                    </div>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     UPCOMING EVENTS
+========================================================= -->
+
+<section class="section-padding schedule-section">
+
+    <div class="container">
+
+        <div class="d-flex justify-content-between align-items-end mb-4">
+
+            <div>
+
+                <h2 class="section-title">
+                    Upcoming Events
+                </h2>
+
+                <p class="section-subtitle mb-0">
+                    Plan your calendar ahead.
+                </p>
+
+            </div>
+
+            <button
+                class="btn btn-outline-dark d-none d-md-block"
+                onclick="showToast('More events are coming soon!')"
+            >
+                View Calendar
+            </button>
+
+        </div>
+
+
+        <div class="schedule-wrapper">
+
+            <div class="schedule-table">
+
+                <table class="table mb-0">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Event
+                            </th>
+
+                            <th>
+                                Date
+                            </th>
+
+                            <th>
+                                Time
+                            </th>
+
+                            <th>
+                                Location
+                            </th>
+
+                            <th>
+                                Price
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    Jazz Under The Stars
+                                </strong>
+                            </td>
+
+                            <td>
+                                18 Sep
+                            </td>
+
+                            <td>
+                                7:30 PM
+                            </td>
+
+                            <td>
+                                Ahmedabad
+                            </td>
+
+                            <td>
+                                ₹799
+                            </td>
+
+                            <td>
+                                <button
+                                    class="btn btn-sm btn-dark"
+                                    onclick="openEvent('EVT-001')"
+                                >
+                                    View
+                                </button>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    Future Tech Conference
+                                </strong>
+                            </td>
+
+                            <td>
+                                24 Sep
+                            </td>
+
+                            <td>
+                                10:00 AM
+                            </td>
+
+                            <td>
+                                Mumbai
+                            </td>
+
+                            <td>
+                                ₹1,499
+                            </td>
+
+                            <td>
+                                <button
+                                    class="btn btn-sm btn-dark"
+                                    onclick="openEvent('EVT-002')"
+                                >
+                                    View
+                                </button>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    Mind & Body Retreat
+                                </strong>
+                            </td>
+
+                            <td>
+                                27 Sep
+                            </td>
+
+                            <td>
+                                8:00 AM
+                            </td>
+
+                            <td>
+                                Vadodara
+                            </td>
+
+                            <td>
+                                ₹999
+                            </td>
+
+                            <td>
+                                <button
+                                    class="btn btn-sm btn-dark"
+                                    onclick="openEvent('EVT-003')"
+                                >
+                                    View
+                                </button>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    Taste of Gujarat
+                                </strong>
+                            </td>
+
+                            <td>
+                                03 Oct
+                            </td>
+
+                            <td>
+                                5:00 PM
+                            </td>
+
+                            <td>
+                                Rajkot
+                            </td>
+
+                            <td>
+                                ₹499
+                            </td>
+
+                            <td>
+                                <button
+                                    class="btn btn-sm btn-dark"
+                                    onclick="openEvent('EVT-004')"
+                                >
+                                    View
+                                </button>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    Gaming & Esports Fest
+                                </strong>
+                            </td>
+
+                            <td>
+                                10 Oct
+                            </td>
+
+                            <td>
+                                11:00 AM
+                            </td>
+
+                            <td>
+                                Surat
+                            </td>
+
+                            <td>
+                                ₹699
+                            </td>
+
+                            <td>
+                                <button
+                                    class="btn btn-sm btn-dark"
+                                    onclick="openEvent('EVT-005')"
+                                >
+                                    View
+                                </button>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     ORGANIZER CTA
+========================================================= -->
+
+<section class="section-padding organizer-section">
+
+    <div class="container">
+
+        <div class="row align-items-center">
+
+            <div class="col-lg-8">
+
+                <h2 class="display-6 fw-bold mb-3">
+                    Have an event to host?
+                </h2>
+
+                <p class="mb-0">
+                    Create your event, reach thousands of people
+                    and grow your audience with Eventify.
+                </p>
+
+            </div>
+
+
+            <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+
+                <a
+                    href="signup.html"
+                    class="btn-white text-decoration-none d-inline-block"
+                >
+                    <i class="bi bi-plus-circle me-2"></i>
+                    Create an Event
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     HOW IT WORKS
+========================================================= -->
+
+<section class="section-padding">
+
+    <div class="container">
+
+        <div class="text-center">
+
+            <h2 class="section-title">
+                How Eventify Works
+            </h2>
+
+            <p class="section-subtitle">
+                Finding your next experience is simple.
+            </p>
+
+        </div>
+
+
+        <div class="row g-5">
+
+
+            <div class="col-md-4 text-center">
+
+                <div class="step-number">
+                    1
+                </div>
+
+                <h4 class="step-title">
+                    Discover
+                </h4>
+
+                <p class="step-text">
+                    Search through concerts, workshops,
+                    festivals, conferences and more.
+                </p>
+
+            </div>
+
+
+            <div class="col-md-4 text-center">
+
+                <div class="step-number">
+                    2
+                </div>
+
+                <h4 class="step-title">
+                    Choose
+                </h4>
+
+                <p class="step-text">
+                    Compare events, check dates and
+                    save your favorite experiences.
+                </p>
+
+            </div>
+
+
+            <div class="col-md-4 text-center">
+
+                <div class="step-number">
+                    3
+                </div>
+
+                <h4 class="step-title">
+                    Experience
+                </h4>
+
+                <p class="step-text">
+                    Book your ticket and enjoy an
+                    unforgettable event.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     NEWSLETTER
+========================================================= -->
+
+<section class="section-padding newsletter">
+
+    <div class="container">
+
+        <div class="text-center">
+
+            <h2 class="section-title">
+                Stay in the Loop
+            </h2>
+
+            <p class="section-subtitle">
+                Get the latest events and experiences delivered to your inbox.
+            </p>
+
+
+            <form
+                id="newsletterForm"
+                class="newsletter-form"
+                novalidate
+            >
+
+                <div class="input-group">
+
+                    <input
+                        type="email"
+                        id="newsletterEmail"
+                        class="form-control"
+                        placeholder="Enter your email address"
+                        required
+                    >
+
+                    <button
+                        class="btn btn-dark px-4"
+                        type="submit"
+                    >
+                        Subscribe
+                    </button>
+
+                </div>
+
+                <div
+                    id="newsletterError"
+                    class="text-danger small text-start mt-2"
+                ></div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer>
+
+    <div class="container">
+
+        <div class="row g-5">
+
+
+            <!-- BRAND -->
+            <div class="col-lg-4">
+
+                <div class="brand mb-3">
+                    <i class="bi bi-calendar-event"></i>
+                    Eventify
+                </div>
+
+                <p class="text-secondary">
+                    Discover amazing events and unforgettable
+                    experiences happening around you.
+                </p>
+
+
+                <div class="mt-4">
+
+                    <a href="#" class="social-icon">
+                        <i class="bi bi-instagram"></i>
+                    </a>
+
+                    <a href="#" class="social-icon">
+                        <i class="bi bi-facebook"></i>
+                    </a>
+
+                    <a href="#" class="social-icon">
+                        <i class="bi bi-twitter-x"></i>
+                    </a>
+
+                    <a href="#" class="social-icon">
+                        <i class="bi bi-linkedin"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- EXPLORE -->
+            <div class="col-6 col-lg-2">
+
+                <h5 class="footer-title">
+                    Explore
+                </h5>
+
+                <a
+                    href="explore.html"
+                    class="footer-link"
+                >
+                    Discover
+                </a>
+
+                <a
+                    href="explore.html?q=Music"
+                    class="footer-link"
+                >
+                    Music
+                </a>
+
+                <a
+                    href="explore.html?q=Tech"
+                    class="footer-link"
+                >
+                    Tech
+                </a>
+
+                <a
+                    href="explore.html?q=Wellness"
+                    class="footer-link"
+                >
+                    Wellness
+                </a>
+
+            </div>
+
+
+            <!-- COMPANY -->
+            <div class="col-6 col-lg-2">
+
+                <h5 class="footer-title">
+                    Company
+                </h5>
+
+                <a href="#" class="footer-link">
+                    About
+                </a>
+
+                <a href="#" class="footer-link">
+                    Contact
+                </a>
+
+                <a href="#" class="footer-link">
+                    Privacy
+                </a>
+
+                <a href="#" class="footer-link">
+                    Terms
+                </a>
+
+            </div>
+
+
+            <!-- ORGANIZERS -->
+            <div class="col-lg-4">
+
+                <h5 class="footer-title">
+                    For Organizers
+                </h5>
+
+                <p class="text-secondary small">
+                    Ready to share your event with the world?
+                </p>
+
+                <a
+                    href="signup.html"
+                    class="btn btn-light"
+                >
+                    Become an Organizer
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="copyright text-center">
+
+            © 2026 Eventify. All rights reserved.
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<!-- TOAST -->
+
+<div
+    id="toastMsg"
+    class="eventify-toast"
+    role="status"
+    aria-live="polite"
+></div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+    /* ==========================================
+       SHOW TOAST
+    ========================================== */
+
+    function showToast(message) {
+
+        const toast = document.getElementById("toastMsg");
+
+        if (!toast) return;
+
+        toast.textContent = message;
+
+        toast.classList.add("show");
+
+        setTimeout(function () {
+
+            toast.classList.remove("show");
+
+        }, 2500);
+
+    }
+
+
+    /* ==========================================
+       FAVORITES
+    ========================================== */
+
+    function toggleFavorite(eventId, button) {
+
+        let favorites =
+            JSON.parse(
+                localStorage.getItem("eventifyFavorites")
+            ) || [];
+
+
+        const index = favorites.indexOf(eventId);
+
+
+        if (index === -1) {
+
+            favorites.push(eventId);
+
+            button.classList.add("active");
+
+            button.innerHTML =
+                '<i class="bi bi-heart-fill"></i>';
+
+            button.setAttribute(
+                "aria-label",
+                "Remove event from favorites"
+            );
+
+            showToast(
+                "Event added to favorites."
+            );
+
+        } else {
+
+            favorites.splice(index, 1);
+
+            button.classList.remove("active");
+
+            button.innerHTML =
+                '<i class="bi bi-heart"></i>';
+
+            button.setAttribute(
+                "aria-label",
+                "Add event to favorites"
+            );
+
+            showToast(
+                "Event removed from favorites."
+            );
+
+        }
+
+
+        localStorage.setItem(
+            "eventifyFavorites",
+            JSON.stringify(favorites)
+        );
+
+    }
+
+
+    /* ==========================================
+       LOAD FAVORITES
+    ========================================== */
+
+    function loadFavorites() {
+
+        const favorites =
+            JSON.parse(
+                localStorage.getItem("eventifyFavorites")
+            ) || [];
+
+
+        document
+            .querySelectorAll(".favorite-btn")
+            .forEach(function(button) {
+
+                const onclick =
+                    button.getAttribute("onclick");
+
+                if (!onclick) return;
+
+
+                const match =
+                    onclick.match(/'([^']+)'/);
+
+                if (!match) return;
+
+
+                const eventId = match[1];
+
+
+                if (favorites.includes(eventId)) {
+
+                    button.classList.add("active");
+
+                    button.innerHTML =
+                        '<i class="bi bi-heart-fill"></i>';
+
+                    button.setAttribute(
+                        "aria-label",
+                        "Remove event from favorites"
+                    );
+
+                }
+
+            });
+
+    }
+
+
+    /* ==========================================
+       OPEN EVENT
+    ========================================== */
+
+    function openEvent(eventId) {
+
+        window.location.href =
+            "event-details.html?id=" +
+            encodeURIComponent(eventId);
+
+    }
+
+
+    /* ==========================================
+       HOME SEARCH
+    ========================================== */
+
+    document
+        .getElementById("homeSearchForm")
+        .addEventListener("submit", function(event) {
+
+            event.preventDefault();
+
+
+            const query =
+                document
+                    .getElementById("homeQuery")
+                    .value
+                    .trim();
+
+
+            const location =
+                document
+                    .getElementById("homeLocation")
+                    .value;
+
+
+            if (
+                query === "" &&
+                location === ""
+            ) {
+
+                showToast(
+                    "Please enter an event or select a location."
+                );
+
+                return;
+
+            }
+
+
+            const params =
+                new URLSearchParams();
+
+
+            if (query !== "") {
+
+                params.set("q", query);
+
+            }
+
+
+            if (location !== "") {
+
+                params.set(
+                    "location",
+                    location
+                );
+
+            }
+
+
+            window.location.href =
+                "explore.html?" +
+                params.toString();
+
+        });
+
+
+    /* ==========================================
+       HEADER SEARCH
+    ========================================== */
+
+    document
+        .getElementById("headerSearch")
+        .addEventListener("keydown", function(event) {
+
+            if (event.key !== "Enter") return;
+
+
+            const query =
+                this.value.trim();
+
+
+            if (query === "") {
+
+                showToast(
+                    "Please enter something to search."
+                );
+
+                return;
+
+            }
+
+
+            window.location.href =
+                "explore.html?q=" +
+                encodeURIComponent(query);
+
+        });
+
+
+    /* ==========================================
+       NEWSLETTER VALIDATION
+    ========================================== */
+
+    document
+        .getElementById("newsletterForm")
+        .addEventListener("submit", function(event) {
+
+            event.preventDefault();
+
+
+            const emailInput =
+                document.getElementById(
+                    "newsletterEmail"
+                );
+
+
+            const error =
+                document.getElementById(
+                    "newsletterError"
+                );
+
+
+            const email =
+                emailInput.value.trim();
+
+
+            error.textContent = "";
+
+
+            if (email === "") {
+
+                error.textContent =
+                    "Please enter your email address.";
+
+                emailInput.classList.add(
+                    "is-invalid"
+                );
+
+                return;
+
+            }
+
+
+            const emailPattern =
+                /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+            if (!emailPattern.test(email)) {
+
+                error.textContent =
+                    "Please enter a valid email address.";
+
+                emailInput.classList.add(
+                    "is-invalid"
+                );
+
+                return;
+
+            }
+
+
+            emailInput.classList.remove(
+                "is-invalid"
+            );
+
+
+            localStorage.setItem(
+                "eventifyNewsletterEmail",
+                email
+            );
+
+
+            emailInput.value = "";
+
+
+            showToast(
+                "Successfully subscribed!"
+            );
+
+        });
+
+
+    /* ==========================================
+       INITIALIZE
+    ========================================== */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function() {
+
+            loadFavorites();
+
+        }
+    );
+
+</script>
+
+
+<!-- Bootstrap JS -->
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+</body>
+</html>

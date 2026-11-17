@@ -1,0 +1,1450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Favorites | Eventify</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <!-- Eventify CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+        /* =========================================================
+           EVENTIFY FAVORITES PAGE
+        ========================================================= */
+
+        body {
+            background: #f7f5ef;
+            color: #111;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /* Header */
+        .eventify-header {
+            height: 74px;
+            background: #fff;
+            border-bottom: 1px solid #e8e5dd;
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .eventify-logo {
+            text-decoration: none;
+            color: #111;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.7px;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .eventify-logo i {
+            font-size: 25px;
+        }
+
+        .main-nav a {
+            color: #555;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            margin: 0 13px;
+            transition: 0.2s;
+        }
+
+        .main-nav a:hover,
+        .main-nav a.active {
+            color: #111;
+        }
+
+        .header-search {
+            width: 210px;
+        }
+
+        .header-search .form-control {
+            border: 1px solid #ddd9d0;
+            border-radius: 10px;
+            background: #faf9f6;
+            font-size: 13px;
+            padding: 9px 12px 9px 38px;
+        }
+
+        .header-search i {
+            position: absolute;
+            left: 13px;
+            top: 10px;
+            color: #777;
+        }
+
+        .header-icon.active-favorite {
+            color: #111;
+        }
+
+        .header-icon {
+            color: #222;
+            text-decoration: none;
+            font-size: 19px;
+            margin-left: 16px;
+            position: relative;
+        }
+
+        .header-divider {
+            height: 28px;
+            width: 1px;
+            background: #ddd;
+            margin: 0 17px;
+        }
+
+        .login-btn {
+            text-decoration: none;
+            color: #222;
+            font-weight: 600;
+            font-size: 14px;
+            margin-right: 14px;
+        }
+
+        .signup-btn {
+            text-decoration: none;
+            color: #fff;
+            background: #111;
+            border-radius: 9px;
+            padding: 10px 17px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .signup-btn:hover {
+            background: #2b2b2b;
+            color: #fff;
+        }
+
+        /* Hero */
+        .favorites-hero {
+            padding: 70px 0 40px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+            color: #777;
+            margin-bottom: 13px;
+        }
+
+        .eyebrow span {
+            width: 25px;
+            height: 1px;
+            background: #111;
+            display: inline-block;
+        }
+
+        .favorites-title {
+            font-size: clamp(38px, 5vw, 62px);
+            font-weight: 800;
+            line-height: 0.98;
+            letter-spacing: -2.5px;
+            margin-bottom: 16px;
+        }
+
+        .favorites-subtitle {
+            max-width: 620px;
+            color: #777;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .favorites-count {
+            background: #111;
+            color: white;
+            min-width: 38px;
+            height: 38px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 14px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        /* Toolbar */
+        .favorites-toolbar {
+            background: #fff;
+            border: 1px solid #e5e1d8;
+            border-radius: 15px;
+            padding: 14px;
+            margin-bottom: 28px;
+        }
+
+        .toolbar-search {
+            position: relative;
+        }
+
+        .toolbar-search i {
+            position: absolute;
+            left: 14px;
+            top: 12px;
+            color: #888;
+        }
+
+        .toolbar-search input {
+            padding-left: 40px;
+        }
+
+        .form-control,
+        .form-select {
+            border-color: #dedad2;
+            border-radius: 10px;
+            min-height: 44px;
+            font-size: 14px;
+            background-color: #fff;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #111;
+            box-shadow: 0 0 0 0.15rem rgba(0, 0, 0, 0.08);
+        }
+
+        /* Event Cards */
+        .event-card {
+            background: #fff;
+            border: 1px solid #e4e0d7;
+            border-radius: 18px;
+            overflow: hidden;
+            height: 100%;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.09);
+        }
+
+        .event-image-wrap {
+            height: 220px;
+            position: relative;
+            overflow: hidden;
+            background: #eee;
+        }
+
+        .event-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .event-card:hover .event-image {
+            transform: scale(1.04);
+        }
+
+        .category-badge {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            background: rgba(255,255,255,0.94);
+            color: #111;
+            padding: 7px 11px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .6px;
+        }
+
+        .remove-favorite {
+            position: absolute;
+            top: 13px;
+            right: 13px;
+            width: 39px;
+            height: 39px;
+            border: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,.95);
+            color: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: .2s;
+        }
+
+        .remove-favorite:hover {
+            background: #111;
+            color: #fff;
+        }
+
+        .event-content {
+            padding: 21px;
+        }
+
+        .event-date {
+            color: #777;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            margin-bottom: 9px;
+        }
+
+        .event-title {
+            font-size: 21px;
+            line-height: 1.15;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .event-description {
+            color: #777;
+            font-size: 13px;
+            line-height: 1.55;
+            min-height: 42px;
+            margin-bottom: 15px;
+        }
+
+        .event-location {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 18px;
+        }
+
+        .event-location i {
+            color: #111;
+        }
+
+        .event-footer {
+            border-top: 1px solid #eeeae2;
+            padding-top: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .event-price {
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .event-price small {
+            display: block;
+            color: #999;
+            font-size: 10px;
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        .btn-black {
+            background: #111;
+            color: #fff;
+            border: 1px solid #111;
+            border-radius: 9px;
+            padding: 9px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: .2s;
+        }
+
+        .btn-black:hover {
+            background: #fff;
+            color: #111;
+        }
+
+        .btn-outline-black {
+            background: transparent;
+            color: #111;
+            border: 1px solid #111;
+            border-radius: 9px;
+            padding: 9px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-outline-black:hover {
+            background: #111;
+            color: #fff;
+        }
+
+        /* Empty State */
+        .empty-state {
+            background: #fff;
+            border: 1px solid #e4e0d7;
+            border-radius: 20px;
+            padding: 80px 25px;
+            text-align: center;
+        }
+
+        .empty-icon {
+            width: 78px;
+            height: 78px;
+            margin: 0 auto 22px;
+            border-radius: 50%;
+            background: #f4f1ea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 31px;
+        }
+
+        .empty-state h2 {
+            font-size: 27px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            color: #777;
+            max-width: 480px;
+            margin: 0 auto 25px;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        /* Footer */
+        .eventify-footer {
+            margin-top: 90px;
+            background: #111;
+            color: #fff;
+            padding: 45px 0;
+        }
+
+        .footer-logo {
+            color: #fff;
+            font-size: 22px;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .footer-text {
+            color: #aaa;
+            font-size: 13px;
+            margin-top: 10px;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 13px;
+            margin-left: 18px;
+        }
+
+        .footer-links a:hover {
+            color: #fff;
+        }
+
+        /* Toast */
+        .eventify-toast {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 2000;
+            min-width: 280px;
+            background: #111;
+            color: #fff;
+            border-radius: 12px;
+            padding: 15px 18px;
+            display: none;
+            box-shadow: 0 15px 40px rgba(0,0,0,.2);
+        }
+
+        /* Mobile */
+        @media (max-width: 991px) {
+
+            .main-nav {
+                display: none;
+            }
+
+            .header-search {
+                width: 170px;
+            }
+
+            .header-divider,
+            .login-btn {
+                display: none;
+            }
+
+            .favorites-hero {
+                padding-top: 45px;
+            }
+        }
+
+        @media (max-width: 575px) {
+
+            .eventify-header {
+                height: 65px;
+            }
+
+            .header-search {
+                display: none;
+            }
+
+            .favorites-title {
+                letter-spacing: -1.5px;
+            }
+
+            .event-image-wrap {
+                height: 210px;
+            }
+
+            .favorites-toolbar {
+                padding: 10px;
+            }
+
+            .event-footer {
+                align-items: flex-end;
+            }
+
+            .footer-links {
+                margin-top: 20px;
+            }
+
+            .footer-links a {
+                margin-left: 0;
+                margin-right: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="eventify-header">
+    <div class="container-fluid px-lg-5">
+        <div class="d-flex align-items-center justify-content-between">
+
+            <!-- Logo -->
+            <a href="index.html" class="eventify-logo">
+                <i class="bi bi-calendar3"></i>
+                Eventify
+            </a>
+
+            <!-- Navigation -->
+            <nav class="main-nav d-none d-lg-flex align-items-center">
+                <a href="explore.html">Discover</a>
+                <a href="explore.html?category=Music">Music</a>
+                <a href="explore.html?category=Tech">Tech</a>
+                <a href="explore.html?category=Wellness">Wellness</a>
+                <a href="explore.html?category=Culinary">Culinary</a>
+            </nav>
+
+            <!-- Right side -->
+            <div class="d-flex align-items-center">
+
+                <div class="header-search position-relative d-none d-md-block">
+                    <i class="bi bi-search"></i>
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="headerSearch"
+                        placeholder="Search events..."
+                    >
+                </div>
+
+                <a href="favorites.html"
+                   class="header-icon active-favorite"
+                   title="Favorites"
+                   aria-label="Favorites">
+                    <i class="bi bi-heart-fill"></i>
+                </a>
+
+                <a href="signup.html"
+                   class="header-icon"
+                   title="Create account">
+                    <i class="bi bi-person-plus"></i>
+                </a>
+
+                <div class="header-divider"></div>
+
+                <a href="login.html" class="login-btn">
+                    Log in
+                </a>
+
+                <a href="signup.html" class="signup-btn">
+                    Sign up
+                </a>
+
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="favorites-hero">
+    <div class="container">
+
+        <div class="eyebrow">
+            <span></span>
+            Your Collection
+        </div>
+
+        <h1 class="favorites-title">
+            Saved Events
+            <span class="favorites-count" id="favoritesCount">0</span>
+        </h1>
+
+        <p class="favorites-subtitle">
+            Keep track of the events you're interested in.
+            Your favorite experiences are all collected here,
+            ready whenever you're ready to book.
+        </p>
+
+    </div>
+</section>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="pb-5">
+    <div class="container">
+
+        <!-- Toolbar -->
+        <div class="favorites-toolbar">
+
+            <div class="row g-2">
+
+                <div class="col-lg-7">
+                    <div class="toolbar-search">
+                        <i class="bi bi-search"></i>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="favoriteSearch"
+                            placeholder="Search your saved events..."
+                        >
+                    </div>
+                </div>
+
+                <div class="col-lg-3">
+                    <select
+                        class="form-select"
+                        id="categoryFilter"
+                    >
+                        <option value="all">
+                            All Categories
+                        </option>
+                        <option value="Music">
+                            Music
+                        </option>
+                        <option value="Tech">
+                            Tech
+                        </option>
+                        <option value="Technology">
+                            Technology
+                        </option>
+                        <option value="Wellness">
+                            Wellness
+                        </option>
+                        <option value="Culinary">
+                            Culinary
+                        </option>
+                        <option value="Gaming">
+                            Gaming
+                        </option>
+                        <option value="Arts">
+                            Arts
+                        </option>
+                        <option value="Design">
+                            Design
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-lg-2">
+                    <button
+                        class="btn btn-dark w-100"
+                        id="clearAllBtn"
+                        style="
+                            min-height:44px;
+                            border-radius:10px;
+                            font-size:13px;
+                            font-weight:700;
+                        "
+                    >
+                        <i class="bi bi-trash3 me-1"></i>
+                        Clear All
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Events -->
+        <div
+            class="row g-4"
+            id="favoritesGrid"
+        ></div>
+
+
+        <!-- Empty State -->
+        <div
+            class="empty-state d-none"
+            id="emptyState"
+        >
+
+            <div class="empty-icon">
+                <i class="bi bi-heart"></i>
+            </div>
+
+            <h2 id="emptyTitle">
+                No saved events yet
+            </h2>
+
+            <p id="emptyText">
+                You haven't added any events to your favorites.
+                Explore Eventify and save the experiences you don't
+                want to miss.
+            </p>
+
+            <a
+                href="explore.html"
+                class="btn-black"
+            >
+                <i class="bi bi-compass me-1"></i>
+                Explore Events
+            </a>
+
+        </div>
+
+    </div>
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="eventify-footer">
+    <div class="container">
+
+        <div class="row align-items-center">
+
+            <div class="col-md-6">
+
+                <a href="index.html" class="footer-logo">
+                    <i class="bi bi-calendar3 me-1"></i>
+                    Eventify
+                </a>
+
+                <div class="footer-text">
+                    Discover experiences worth remembering.
+                </div>
+
+            </div>
+
+            <div class="col-md-6 text-md-end footer-links">
+
+                <a href="index.html">Home</a>
+                <a href="explore.html">Explore</a>
+                <a href="favorites.html">Favorites</a>
+                <a href="dashboard.html">Dashboard</a>
+
+            </div>
+
+        </div>
+
+    </div>
+</footer>
+
+
+<!-- Toast -->
+<div class="eventify-toast" id="eventToast">
+    <i class="bi bi-check-circle-fill me-2"></i>
+    <span id="toastMessage">Event removed.</span>
+</div>
+
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<script>
+/* =========================================================
+   EVENTIFY FAVORITES
+========================================================= */
+
+/*
+    Keep these events synchronized with event-details.html
+*/
+
+const events = [
+
+    {
+        id: "EVT-001",
+        title: "Jazz Under The Stars",
+        category: "Music",
+        city: "Ahmedabad",
+        venue: "Riverfront Amphitheatre",
+        date: "Sep 18, 2026",
+        price: 799,
+        image: "assets/images/jazz.jpg",
+        description:
+            "An unforgettable open-air jazz evening featuring brilliant musicians."
+    },
+
+    {
+        id: "EVT-002",
+        title: "Future Tech Conference",
+        category: "Tech",
+        city: "Mumbai",
+        venue: "Jio World Convention Centre",
+        date: "Sep 24, 2026",
+        price: 1499,
+        image: "assets/images/tech.jpg",
+        description:
+            "Explore emerging technologies, AI, innovation and the future of digital experiences."
+    },
+
+    {
+        id: "EVT-003",
+        title: "Mind & Body Retreat",
+        category: "Wellness",
+        city: "Vadodara",
+        venue: "Green Valley Resort",
+        date: "Sep 27, 2026",
+        price: 999,
+        image: "assets/images/wellness.jpg",
+        description:
+            "A refreshing wellness experience focused on mindfulness, movement and relaxation."
+    },
+
+    {
+        id: "EVT-004",
+        title: "Taste of Gujarat",
+        category: "Culinary",
+        city: "Rajkot",
+        venue: "Race Course Grounds",
+        date: "Oct 3, 2026",
+        price: 499,
+        image: "assets/images/culinary.jpg",
+        description:
+            "Taste authentic Gujarati flavors, street food and culinary creations."
+    },
+
+    {
+        id: "EVT-005",
+        title: "Gaming & Esports Fest",
+        category: "Gaming",
+        city: "Surat",
+        venue: "SIECC Exhibition Centre",
+        date: "Oct 10, 2026",
+        price: 699,
+        image: "assets/images/gaming.jpg",
+        description:
+            "Level up your weekend with esports tournaments, gaming zones and competitions."
+    },
+
+    {
+        id: "EVT-006",
+        title: "Live Music Festival",
+        category: "Music",
+        city: "Ahmedabad",
+        venue: "GMDC Ground",
+        date: "Oct 17, 2026",
+        price: 1199,
+        image: "assets/images/concert.jpg",
+        description:
+            "A high-energy live music festival featuring incredible performances."
+    },
+
+    {
+        id: "EVT-007",
+        title: "Modern Art Exhibition",
+        category: "Arts",
+        city: "Ahmedabad",
+        venue: "Amdavad Ni Gufa",
+        date: "Oct 20, 2026",
+        price: 399,
+        image: "assets/images/arts.jpg",
+        description:
+            "Discover bold contemporary works from emerging and established artists."
+    },
+
+    {
+        id: "EVT-008",
+        title: "Creative Design Workshop",
+        category: "Design",
+        city: "Pune",
+        venue: "Creative Hub Pune",
+        date: "Oct 23, 2026",
+        price: 599,
+        image: "assets/images/design.jpg",
+        description:
+            "Build practical design skills through an immersive creative workshop."
+    },
+
+    {
+        id: "EVT-009",
+        title: "AI & Machine Learning Workshop",
+        category: "Technology",
+        city: "Bengaluru",
+        venue: "Innovation Campus",
+        date: "Oct 25, 2026",
+        price: 1299,
+        image: "assets/images/ai.jpg",
+        description:
+            "Learn practical AI and machine learning concepts from industry experts."
+    },
+
+    {
+        id: "EVT-010",
+        title: "Sunset Acoustic Night",
+        category: "Music",
+        city: "Goa",
+        venue: "Sunset Beach Arena",
+        date: "Oct 28, 2026",
+        price: 899,
+        image: "assets/images/acoustic.jpg",
+        description:
+            "Relax by the beach with soulful acoustic performances at sunset."
+    },
+
+    {
+        id: "EVT-011",
+        title: "Healthy Living Workshop",
+        category: "Wellness",
+        city: "Jaipur",
+        venue: "Wellness Centre Jaipur",
+        date: "Oct 30, 2026",
+        price: 499,
+        image: "assets/images/health.jpg",
+        description:
+            "Learn practical habits for a healthier, more balanced lifestyle."
+    },
+
+    {
+        id: "EVT-012",
+        title: "Street Food Festival",
+        category: "Culinary",
+        city: "Delhi",
+        venue: "Major Dhyan Chand National Stadium",
+        date: "Nov 1, 2026",
+        price: 349,
+        image: "assets/images/food.jpg",
+        description:
+            "A delicious celebration of street food, local flavors and food culture."
+    }
+
+];
+
+
+/* =========================================================
+   LOCAL STORAGE
+========================================================= */
+
+function getFavorites() {
+
+    try {
+
+        const saved =
+            JSON.parse(
+                localStorage.getItem("eventifyFavorites")
+            );
+
+        return Array.isArray(saved) ? saved : [];
+
+    } catch (error) {
+
+        return [];
+
+    }
+}
+
+
+function saveFavorites(favorites) {
+
+    localStorage.setItem(
+        "eventifyFavorites",
+        JSON.stringify(favorites)
+    );
+
+}
+
+
+/* =========================================================
+   GET FAVORITE EVENTS
+========================================================= */
+
+function getFavoriteEvents() {
+
+    const favoriteIds = getFavorites();
+
+    return events.filter(event =>
+        favoriteIds.includes(event.id)
+    );
+
+}
+
+
+/* =========================================================
+   UPDATE COUNT
+========================================================= */
+
+function updateFavoritesCount() {
+
+    const count =
+        getFavoriteEvents().length;
+
+    document.getElementById(
+        "favoritesCount"
+    ).textContent = count;
+
+}
+
+
+/* =========================================================
+   FORMAT PRICE
+========================================================= */
+
+function formatPrice(price) {
+
+    return "₹" + price.toLocaleString("en-IN");
+
+}
+
+
+/* =========================================================
+   RENDER FAVORITES
+========================================================= */
+
+function renderFavorites() {
+
+    const grid =
+        document.getElementById("favoritesGrid");
+
+    const emptyState =
+        document.getElementById("emptyState");
+
+    const emptyTitle =
+        document.getElementById("emptyTitle");
+
+    const emptyText =
+        document.getElementById("emptyText");
+
+    const search =
+        document.getElementById("favoriteSearch")
+            .value
+            .trim()
+            .toLowerCase();
+
+    const category =
+        document.getElementById("categoryFilter")
+            .value;
+
+
+    let favoriteEvents =
+        getFavoriteEvents();
+
+
+    /* Search */
+    if (search !== "") {
+
+        favoriteEvents =
+            favoriteEvents.filter(event =>
+
+                event.title
+                    .toLowerCase()
+                    .includes(search)
+
+                ||
+
+                event.city
+                    .toLowerCase()
+                    .includes(search)
+
+                ||
+
+                event.category
+                    .toLowerCase()
+                    .includes(search)
+
+                ||
+
+                event.venue
+                    .toLowerCase()
+                    .includes(search)
+
+            );
+
+    }
+
+
+    /* Category */
+    if (category !== "all") {
+
+        favoriteEvents =
+            favoriteEvents.filter(event =>
+                event.category === category
+            );
+
+    }
+
+
+    grid.innerHTML = "";
+
+
+    /* No results */
+    if (favoriteEvents.length === 0) {
+
+        emptyState.classList.remove("d-none");
+
+        if (getFavoriteEvents().length === 0) {
+
+            emptyTitle.textContent =
+                "No saved events yet";
+
+            emptyText.textContent =
+                "You haven't added any events to your favorites. Explore Eventify and save the experiences you don't want to miss.";
+
+        } else {
+
+            emptyTitle.textContent =
+                "No matching events";
+
+            emptyText.textContent =
+                "Try another search term or choose a different category.";
+
+        }
+
+        updateFavoritesCount();
+
+        return;
+
+    }
+
+
+    emptyState.classList.add("d-none");
+
+
+    /* Render Cards */
+    favoriteEvents.forEach(event => {
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "col-md-6 col-lg-4";
+
+
+        card.innerHTML = `
+
+            <div class="event-card">
+
+                <div class="event-image-wrap">
+
+                    <img
+                        src="${event.image}"
+                        alt="${event.title}"
+                        class="event-image"
+                        onerror="this.src='assets/images/hero.jpg'"
+                    >
+
+                    <span class="category-badge">
+                        ${event.category}
+                    </span>
+
+                    <button
+                        class="remove-favorite"
+                        title="Remove from favorites"
+                        onclick="removeFavorite('${event.id}')"
+                    >
+                        <i class="bi bi-heart-fill"></i>
+                    </button>
+
+                </div>
+
+
+                <div class="event-content">
+
+                    <div class="event-date">
+                        <i class="bi bi-calendar3 me-1"></i>
+                        ${event.date}
+                    </div>
+
+                    <h3 class="event-title">
+                        ${event.title}
+                    </h3>
+
+                    <p class="event-description">
+                        ${event.description}
+                    </p>
+
+                    <div class="event-location">
+
+                        <i class="bi bi-geo-alt"></i>
+
+                        <span>
+                            ${event.venue}, ${event.city}
+                        </span>
+
+                    </div>
+
+
+                    <div class="event-footer">
+
+                        <div class="event-price">
+
+                            ${formatPrice(event.price)}
+
+                            <small>
+                                per person
+                            </small>
+
+                        </div>
+
+
+                        <div class="d-flex gap-2">
+
+                            <a
+                                href="event-details.html?id=${event.id}"
+                                class="btn-outline-black"
+                            >
+                                Details
+                            </a>
+
+                            <a
+                                href="event-details.html?id=${event.id}&checkout=true"
+                                class="btn-black"
+                            >
+                                Book
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        grid.appendChild(card);
+
+    });
+
+
+    updateFavoritesCount();
+
+}
+
+
+/* =========================================================
+   REMOVE FAVORITE
+========================================================= */
+
+function removeFavorite(eventId) {
+
+    let favorites =
+        getFavorites();
+
+    favorites =
+        favorites.filter(id =>
+            id !== eventId
+        );
+
+    saveFavorites(favorites);
+
+    const event =
+        events.find(item =>
+            item.id === eventId
+        );
+
+    showToast(
+        `"${event ? event.title : "Event"}" removed from favorites.`
+    );
+
+    renderFavorites();
+
+}
+
+
+/* =========================================================
+   CLEAR ALL
+========================================================= */
+
+document
+    .getElementById("clearAllBtn")
+    .addEventListener("click", function () {
+
+        const favorites =
+            getFavorites();
+
+        if (favorites.length === 0) {
+
+            showToast(
+                "Your favorites are already empty."
+            );
+
+            return;
+
+        }
+
+
+        const confirmDelete =
+            confirm(
+                "Are you sure you want to remove all favorite events?"
+            );
+
+
+        if (!confirmDelete) {
+            return;
+        }
+
+
+        localStorage.removeItem(
+            "eventifyFavorites"
+        );
+
+
+        showToast(
+            "All favorite events have been removed."
+        );
+
+
+        renderFavorites();
+
+    });
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+document
+    .getElementById("favoriteSearch")
+    .addEventListener(
+        "input",
+        renderFavorites
+    );
+
+
+/* =========================================================
+   CATEGORY FILTER
+========================================================= */
+
+document
+    .getElementById("categoryFilter")
+    .addEventListener(
+        "change",
+        renderFavorites
+    );
+
+
+/* =========================================================
+   HEADER SEARCH
+========================================================= */
+
+document
+    .getElementById("headerSearch")
+    ?.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (event.key === "Enter") {
+
+                const value =
+                    this.value.trim();
+
+                if (value !== "") {
+
+                    window.location.href =
+                        "explore.html?search=" +
+                        encodeURIComponent(value);
+
+                }
+
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer;
+
+
+function showToast(message) {
+
+    const toast =
+        document.getElementById("eventToast");
+
+    const toastMessage =
+        document.getElementById("toastMessage");
+
+
+    toastMessage.textContent =
+        message;
+
+    toast.style.display =
+        "block";
+
+
+    clearTimeout(toastTimer);
+
+
+    toastTimer =
+        setTimeout(function() {
+
+            toast.style.display =
+                "none";
+
+        }, 2800);
+
+}
+
+
+/* =========================================================
+   INITIAL LOAD
+========================================================= */
+
+renderFavorites();
+updateFavoritesCount();
+
+</script>
+
+</body>
+</html>

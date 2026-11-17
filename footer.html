@@ -1,0 +1,242 @@
+<footer class="footer">
+    <div class="container">
+
+        <div class="row g-4">
+
+            <!-- Stay Updated -->
+            <div class="col-lg-3">
+                <h6>Stay updated</h6>
+
+                <p>
+                    Subscribe to our newsletter to receive the latest event
+                    updates, tech workshops, and wellness retreats directly
+                    to your inbox.
+                </p>
+
+                <form
+                    id="newsletterForm"
+                    class="newsletter-form needs-validation"
+                    novalidate
+                >
+                    <div class="d-flex gap-2">
+
+                        <input
+                            id="newsletterEmail"
+                            required
+                            type="email"
+                            class="form-control"
+                            placeholder="Enter your email"
+                        >
+
+                        <button
+                            class="wire-btn"
+                            type="submit"
+                        >
+                            Subscribe
+                        </button>
+
+                    </div>
+
+                    <div class="invalid-feedback">
+                        Please enter a valid email address.
+                    </div>
+                </form>
+            </div>
+
+
+            <!-- Explore -->
+            <div class="col-lg-3">
+                <h6>Explore</h6>
+
+                <ul>
+                    <li>
+                        <a href="explore.html?q=Music">
+                            Music Events
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="explore.html?q=Tech">
+                            Tech Workshops
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="explore.html?q=Wellness">
+                            Wellness Retreats
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="explore.html?q=Culinary">
+                            Culinary Experiences
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+
+            <!-- Support -->
+            <div class="col-lg-3">
+                <h6>Support</h6>
+
+                <ul>
+                    <li>
+                        <a href="contact.html">
+                            Help Center
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            Terms of Service
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            Privacy Policy
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="contact.html">
+                            Contact Us
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+
+            <!-- Reach Out -->
+            <div class="col-lg-3">
+                <h6>Reach Out</h6>
+
+                <p>
+                    ⌖ 123 Event Street, City, State 12345
+                    <br>
+                    ✉ support@eventify.com
+                    <br>
+                    ☎ +1 (555) 012-3456
+                </p>
+            </div>
+
+        </div>
+
+
+        <hr>
+
+
+        <!-- Bottom Footer -->
+        <div class="d-flex justify-content-between align-items-center small-note">
+
+            <span>
+                © 2026 Eventify. All rights reserved.
+            </span>
+
+            <span class="social">
+                <a href="#" aria-label="Instagram">◎</a>
+                <a href="#" aria-label="LinkedIn">♢</a>
+                <a href="#" aria-label="Facebook">f</a>
+            </span>
+
+        </div>
+
+    </div>
+</footer>
+
+
+<!-- Toast -->
+<div
+    id="footerToast"
+    class="toast-msg border bg-dark text-white px-3 py-2 small"
+></div>
+
+
+<!-- Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Eventify JS -->
+<script src="assets/js/app.js"></script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const newsletterForm =
+        document.getElementById("newsletterForm");
+
+    const newsletterEmail =
+        document.getElementById("newsletterEmail");
+
+    const toast =
+        document.getElementById("footerToast");
+
+
+    function showFooterToast(message) {
+
+        toast.textContent = message;
+        toast.style.display = "block";
+
+        clearTimeout(window.footerToastTimer);
+
+        window.footerToastTimer =
+            setTimeout(function () {
+                toast.style.display = "none";
+            }, 3000);
+    }
+
+
+    newsletterForm.addEventListener("submit", function (e) {
+
+        e.preventDefault();
+
+        newsletterEmail.value =
+            newsletterEmail.value.trim();
+
+        newsletterEmail.classList.remove("is-invalid");
+
+
+        if (
+            !newsletterEmail.checkValidity() ||
+            /\s/.test(newsletterEmail.value)
+        ) {
+
+            newsletterEmail.classList.add("is-invalid");
+
+            return;
+        }
+
+
+        let subscribers =
+            JSON.parse(
+                localStorage.getItem("eventifySubscribers") || "[]"
+            );
+
+
+        const email =
+            newsletterEmail.value.toLowerCase();
+
+
+        if (!subscribers.includes(email)) {
+
+            subscribers.push(email);
+
+            localStorage.setItem(
+                "eventifySubscribers",
+                JSON.stringify(subscribers)
+            );
+
+        }
+
+
+        newsletterForm.reset();
+
+        showFooterToast(
+            "Successfully subscribed to Eventify!"
+        );
+
+    });
+
+});
+</script>
